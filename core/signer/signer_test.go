@@ -26,10 +26,10 @@ func TestSign(t *testing.T) {
 	if err != nil {
 		t.Fatalf("create new signer failed, %v", err)
 	}
-	request := common.ListMPCRequestsParam{
+	request := common.WaasMpcNodeExecRecordParam{
 		BusinessExecType:   1,
 		BusinessExecStatus: 10,
-		SinoID:             "fake sino id",
+		SinoId:             "fake sino id",
 		PageIndex:          0,
 		PageSize:           120,
 	}

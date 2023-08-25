@@ -31,10 +31,10 @@ func TestPost(t *testing.T) {
 		t.Fatalf("create new http failed, %v", err)
 	}
 	path := "/v1/waas/mpc/mpcnode/list_mpc_requests"
-	request := &common.ListMPCRequestsParam{
+	request := &common.WaasMpcNodeExecRecordParam{
 		BusinessExecType:   1,
 		BusinessExecStatus: 10,
-		SinoID:             "fake sino id",
+		SinoId:             "fake sino id",
 		PageIndex:          0,
 		PageSize:           40,
 	}
