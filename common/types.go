@@ -10,15 +10,232 @@ const (
 	BizApiKey       = "BIZ-API-KEY"
 	BizApiNone      = "BIZ-API-NONCE"
 	BizApiSignature = "BIZ-API-SIGNATURE"
+
+	MPCProxyStatusOk = 200
+	MPCProxySuccess  = true
 )
 
 type Response struct {
 	Code      int             `json:"code,omitempty"`
-	Message   string          `json:"message,omitempty"`
+	Message   string          `json:"msg,omitempty"`
 	Success   bool            `json:"success,omitempty"`
 	RequestID string          `json:"requestId,omitempty"`
 	Data      json.RawMessage `json:"data,omitempty"`
 }
+
+// Response data
+
+type WaasChainData struct {
+	ChainName   string `json:"chainName,omitempty"`   // 链全名
+	ChainSymbol string `json:"chainSymbol,omitempty"` // 链名称 简称 链标识 具有唯一性
+}
+
+type WaaSCoinDTOData struct {
+	AssetName    string `json:"assetName,omitempty"`    // 币种全称
+	AssetId      string `json:"assetId,omitempty"`      // 币标识 具有唯一性
+	AssetDecimal int    `json:"assetDecimal,omitempty"` // 币种精度
+}
+
+type WaaSVaultInfoData struct {
+	BusinessType           int                  `json:"businessType,omitempty"`
+	VaultInfoOfOpenApiList []VaultInfoOfOpenApi `json:"vaultInfoOfOpenApiList,omitempty"`
+}
+
+type WaasWalletInfoData struct {
+	WalletId        string `json:"walletId,omitempty"`        // 钱包id
+	WalletName      string `json:"walletName,omitempty"`      // 钱包名称
+	AdvancedEnabled int    `json:"advancedEnabled,omitempty"` // 高级功能开关 (关：0，开：1)
+}
+
+type PageData struct {
+	PageIndex int             `json:"pageIndex,omitempty"`
+	PageSize  int             `json:"pageSize,omitempty"`
+	TotalSize int             `json:"totalSize,omitempty"`
+	List      json.RawMessage `json:"list,omitempty"`
+}
+
+type WaaSAddressInfoData struct {
+	ID       string `json:"id,omitempty"`       // 地址id
+	Address  string `json:"address,omitempty"`  // 链地址
+	HdPath   string `json:"hdPath,omitempty"`   // 地址对应的path
+	Encoding int    `json:"encoding,omitempty"` // 地址类型（例：BTC链：Legacy（P2PKH）格式：0，Native SegWit（Bech32）格式：2）
+	Pubkey   string `json:"pubkey,omitempty"`   // 公钥
+}
+
+type WaaSAddressData struct {
+	ID       string `json:"id,omitempty"`       // 地址id
+	Address  string `json:"address,omitempty"`  // 链地址
+	HdPath   string `json:"hdPath,omitempty"`   // 地址对应的path
+	Encoding int    `json:"encoding,omitempty"` // 地址类型（例：BTC链：Legacy（P2PKH）格式：0，Native SegWit（Bech32）格式：2）
+	Pubkey   string `json:"pubkey,omitempty"`   // 公钥
+}
+
+type WaaSWalletInfoData struct {
+	WalletId        string `json:"walletId,omitempty"`        // 钱包id
+	WalletName      string `json:"walletName,omitempty"`      // 钱包名称
+	AdvancedEnabled int    `json:"advancedEnabled,omitempty"` // 高级功能开关 (关：0，开：1)
+}
+
+type WaaSListAddedChainsDTOData struct {
+	ChainSymbol      string          `json:"chainSymbol,omitempty"`      // 链名称 简称 链标识
+	FirstAddressInfo WaaSAddressData `json:"firstAddressInfo,omitempty"` // 地址
+}
+
+type WaaSGetWalletBalanceDTOData struct {
+	ChainSymbol  string `json:"chainSymbol,omitempty"`  // 链名称 简称 链标识
+	AssetId      string `json:"assetId,omitempty"`      // 币名称 简称 币标识
+	Balance      string `json:"balance,omitempty"`      // 金额
+	AssetDecimal int    `json:"assetDecimal,omitempty"` // 币种精度
+}
+
+type WaaSAddressCheckDTOData struct {
+	IsValid bool `json:"isValid,omitempty"` // 检查结果
+}
+
+type WaaSTransferAddressBookDTOData struct {
+	Address string `json:"address,omitempty"` // 地址
+}
+
+type WaaSTransferAddressSwitchDTOData struct {
+	RiskControlEnabled bool `json:"riskControlEnabled,omitempty"` // 风控开关 (true 开启, false 关闭)
+}
+
+type CreateSettlementTxResData struct {
+	SinoId        int64  `json:"sinoId,omitempty"`
+	ChainSymbol   string `json:"chainSymbol,omitempty"`
+	TxType        string `json:"txType,omitempty"`
+	HasToBeSigned string `json:"hasToBeSigned,omitempty"`
+	Data          TxInfo `json:"data,omitempty"`
+	Hdpath        string `json:"hdpath,omitempty"`
+	Cryptography  string `json:"cryptography,omitempty"`
+}
+
+type TxInfo struct {
+	Asset             string     `json:"asset,omitempty"`
+	From              string     `json:"from,omitempty"`
+	FromTag           string     `json:"fromTag,omitempty"`
+	To                string     `json:"to,omitempty"`
+	ToTag             string     `json:"toTag,omitempty"`
+	Amount            string     `json:"amount,omitempty"`
+	Fee               string     `json:"fee,omitempty"`
+	TxType            int        `json:"txType,omitempty"`
+	FeeAsset          string     `json:"feeAsset,omitempty"`
+	FeePrice          string     `json:"feePrice,omitempty"`
+	FeeStep           string     `json:"feeStep,omitempty"`
+	ChainId           string     `json:"chainId,omitempty"`
+	Nonce             string     `json:"nonce,omitempty"`
+	Decimal           int        `json:"decimal,omitempty"`
+	CurrentTime       int64      `json:"currentTime,omitempty"`
+	ExpireTime        int64      `json:"expireTime,omitempty"`
+	ExpireBlockHeight int64      `json:"expireBlockHeight,omitempty"`
+	ReferBlockHeight  int64      `json:"referBlockHeight,omitempty"`
+	Vin               []VinItem  `json:"vin,omitempty"`
+	Vout              []VoutItem `json:"vout,omitempty"`
+	FunName           string     `json:"funName,omitempty"`
+	Params            []string   `json:"params,omitempty"`
+}
+
+type VinItem struct {
+	Id        int64  `json:"id,omitempty"`
+	Hash      string `json:"hash,omitempty"`
+	VoutIndex string `json:"voutIndex,omitempty"`
+	Address   string `json:"address,omitempty"`
+	Amount    string `json:"amount,omitempty"`
+	Asset     string `json:"asset,omitempty"`
+}
+
+type VoutItem struct {
+	Asset   string `json:"asset,omitempty"`
+	Address string `json:"address,omitempty"`
+	Amount  string `json:"amount,omitempty"`
+}
+
+type BaseWaasParam struct {
+	PageIndex int `json:"pageIndex,omitempty"`
+	PageSize  int `json:"pageSize,omitempty"`
+	Offset    int `json:"offset,omitempty"`
+}
+
+type TransferHistoryWAASDTO struct {
+	BaseWaasParam
+
+	SinoId       int64           `json:"sinoId,omitempty"`
+	AssetId      string          `json:"assetId,omitempty"`
+	AssetName    string          `json:"assetName,omitempty"`
+	ChainSymbol  string          `json:"chainSymbol,omitempty"`
+	ChainName    string          `json:"chainName,omitempty"`
+	TxDirection  string          `json:"txDirection,omitempty"`
+	TxType       string          `json:"txType,omitempty"`
+	Decimal      int             `json:"decimal,omitempty"`
+	CoinDecimals int             `json:"coinDecimals,omitempty"`
+	Transaction  TransactionWAAS `json:"transaction,omitempty"`
+	UpdateTime   string          `json:"updateTime,omitempty"`
+}
+
+type TransactionWAAS struct {
+	TxHash            string                          `json:"txHash,omitempty"`
+	From              string                          `json:"from,omitempty"`
+	FromTag           string                          `json:"fromTag,omitempty"`
+	To                string                          `json:"to,omitempty"`
+	ToTag             string                          `json:"toTag,omitempty"`
+	Amount            string                          `json:"amount,omitempty"`
+	FeeAsset          string                          `json:"feeAsset,omitempty"`
+	FeePrice          string                          `json:"feePrice,omitempty"`
+	FeeStep           string                          `json:"feeStep,omitempty"`
+	State             int                             `json:"state,omitempty"`
+	Nonce             string                          `json:"nonce,omitempty"`
+	Timestamp         int64                           `json:"timestamp,omitempty"`
+	Note              string                          `json:"note,omitempty"`
+	Fee               float64                         `json:"fee,omitempty"`
+	TransactionFee    float64                         `json:"transactionFee,omitempty"`
+	Asset             string                          `json:"asset,omitempty"`
+	Decimal           int                             `json:"decimal,omitempty"`
+	CurrentTime       int64                           `json:"currentTime,omitempty"`
+	ExpireTime        int64                           `json:"expireTime,omitempty"`
+	ExpireBlockHeight int64                           `json:"expireBlockHeight,omitempty"`
+	ReferBlockHeight  int64                           `json:"referBlockHeight,omitempty"`
+	ChainId           string                          `json:"chainId,omitempty"`
+	Vin               []CreateSettlementTxResVinItem  `json:"vin,omitempty"`
+	Vout              []CreateSettlementTxResVoutItem `json:"vout,omitempty"`
+}
+
+type CreateSettlementTxResVinItem struct {
+	ID        int64  `json:"id,omitempty"`
+	Hash      string `json:"hash,omitempty"`
+	VoutIndex string `json:"voutIndex,omitempty"`
+	Address   string `json:"address,omitempty"`
+	Amount    string `json:"amount,omitempty"`
+	Asset     string `json:"asset,omitempty"`
+}
+
+type CreateSettlementTxResVoutItem struct {
+	Asset   string `json:"asset,omitempty"`
+	Address string `json:"address,omitempty"`
+	Amount  string `json:"amount,omitempty"`
+}
+
+type WaaSMpcNodeExecRecordDTO struct {
+	RequestId          string `json:"requestId,omitempty"`          // 用户发起业务自己生成的唯一请求id
+	SinoId             string `json:"sinoId,omitempty"`             // sinoId sinohope 根据当前业务生成的唯一id
+	RequestTime        string `json:"requestTime,omitempty"`        // 请求时间 格式 "2022-02-02 00:00:00"
+	Param              string `json:"param,omitempty"`              // 参数
+	Result             string `json:"result,omitempty"`             // 失败原因
+	BusinessExecType   int    `json:"businessExecType,omitempty"`   // 业务执行类型（KeyGen 类型请求：1，signTx 类型请求：2，signMessage 类型请求：3，signRawData 类型请求：4）
+	BusinessExecStatus int    `json:"businessExecStatus,omitempty"` // 业务执行状态 (进行中：0，成功：1，失败：2）
+	FailedReason       string `json:"failedReason,omitempty"`       // 失败原因
+}
+
+type WaaSMpcNodeStatusDTOData struct {
+	NodeId       string `json:"nodeId,omitempty"`       // 节点id
+	OnlineStatus int    `json:"onlineStatus,omitempty"` // 在线状态 (offline：0，online：1) MpcNode 和 sinohope的连接状态
+}
+
+type WaaSSignatureData struct {
+	SinoId      string `json:"sinoId,omitempty"`
+	MessageHash string `json:"messageHash,omitempty"`
+}
+
+// Request params
 
 type WaasChainParam struct {
 	ChainName   string `json:"chainName,omitempty"`   // 链全名
