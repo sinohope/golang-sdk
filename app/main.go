@@ -3,7 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/sinohope/sinohope-golang-sdk/core/http"
+	"github.com/sinohope/sinohope-golang-sdk/core/sdk"
+	"github.com/sinohope/sinohope-golang-sdk/core/signer"
 	"github.com/sinohope/sinohope-golang-sdk/log"
+	"github.com/sirupsen/logrus"
 
 	"github.com/sinohope/sinohope-golang-sdk/common"
 )
@@ -44,6 +48,8 @@ func main() {
 		},
 	}
 	log.SetLogDetailsByConfig(a, l)
+
+	checkMPCNodeStatus()
 }
 
 func check() error {
@@ -54,4 +60,42 @@ func check() error {
 		return fmt.Errorf("mpc-proxy url can not be empty")
 	}
 	return nil
+}
+
+func checkMPCNodeStatus() {
+	s, err := signer.NewSigner(common.FakePrivateKey)
+	if err != nil {
+		logrus.Errorf("create new signer failed, %v", err)
+		return
+	}
+	p, err := http.NewHTTP(common.BaseUrl, s)
+	if err != nil {
+		logrus.Errorf("create http failed, %v", err)
+		return
+	}
+	m, err := sdk.NewMPCNodeAPI(p)
+	if err != nil {
+		logrus.Errorf("create mpc node sdk failed, %v", err)
+		return
+	}
+	request := &common.WaasMpcNodeExecRecordParam{
+		BusinessExecType:   1,
+		BusinessExecStatus: 10,
+		SinoId:             "fake sino id",
+		PageIndex:          0,
+		PageSize:           40,
+	}
+	var result *common.PageData
+	if result, err = m.ListMPCRequests(request); err != nil {
+		logrus.Errorf("list mpc requests failed, %v", err)
+	} else {
+		// TODO: do something with result
+		fmt.Printf("-----------> [%s]", result.List)
+	}
+	var status *common.WaaSMpcNodeStatusDTOData
+	if status, err = m.Status(); err != nil {
+		logrus.Errorf("get mpc node status failed, %v", err)
+	} else {
+		logrus.Infof("get mpc node status success, %v", status)
+	}
 }
