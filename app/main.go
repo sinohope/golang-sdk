@@ -1,6 +1,11 @@
 package main
 
 import (
+	"crypto/ecdsa"
+	"crypto/elliptic"
+	"crypto/rand"
+	"crypto/x509"
+	"encoding/hex"
 	"flag"
 	"fmt"
 	"github.com/sinohope/sinohope-golang-sdk/core/http"
@@ -63,7 +68,18 @@ func check() error {
 }
 
 func checkMPCNodeStatus() {
-	s, err := signer.NewSigner(common.FakePrivateKey)
+	public, private, err := generateECDSAPrivateKey()
+	if err != nil {
+		logrus.Errorf("create new ecdsa failed, %v", err)
+		return
+	}
+	//public := common.FakePublicKey
+	//private := common.FakePrivateKey
+	logrus.
+		WithField("public", public).
+		WithField("private", private).
+		Infof("after generate ECDSA keypair")
+	s, err := signer.NewSigner(private)
 	if err != nil {
 		logrus.Errorf("create new signer failed, %v", err)
 		return
@@ -98,4 +114,17 @@ func checkMPCNodeStatus() {
 	} else {
 		logrus.Infof("get mpc node status success, %v", status)
 	}
+}
+
+func generateECDSAPrivateKey() (string, string, error) {
+	privateKey, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
+	if err != nil {
+		return "", "", err
+	}
+	pkcs8Bytes, err := x509.MarshalPKCS8PrivateKey(privateKey)
+	if err != nil {
+		return "", "", err
+	}
+	pubKeyBytes := elliptic.Marshal(privateKey.PublicKey.Curve, privateKey.PublicKey.X, privateKey.PublicKey.Y)
+	return hex.EncodeToString(pubKeyBytes), hex.EncodeToString(pkcs8Bytes), nil
 }
