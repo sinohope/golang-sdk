@@ -36,11 +36,6 @@ func (h *http) Post(path string, request interface{}) (*common.Response, error) 
 	t := timestamp()
 	header := make(map[string]string, 4)
 	header["Content-Type"] = "application/json"
-	// ---------------------------------------------
-	// TODO:
-	header["publicKey"] = h.signer.PublicKey()
-	header["privateKey"] = h.signer.PrivateKey()
-	// ---------------------------------------------
 	header[common.BizApiKey] = h.signer.PublicKey()
 	header[common.BizApiNone] = t
 	if signature, err := h.signer.Sign(path, t, string(payload)); err != nil {
