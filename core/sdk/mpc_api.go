@@ -123,23 +123,6 @@ func (m *mpcAPI) GetAddressBalance(param *common.WaaSGetAddressBalanceParam) (*c
 	}
 }
 
-// GetWalletBalance 查询指定钱包所有币种的余额信息
-// POST: /v1/waas/mpc/wallet/get_wallet_balance
-func (m *mpcAPI) GetWalletBalance(param *common.WaaSGetWalletBalanceParam) ([]*common.WaaSGetWalletBalanceDTOData, error) {
-	if response, err := m.h.Post("/v1/waas/mpc/wallet/get_wallet_balance", param); err != nil {
-		return nil, fmt.Errorf("send request failed, %v", err)
-	} else if response.Code != common.MPCProxyStatusOk {
-		return nil, fmt.Errorf("error response, code: %v msg: %v",
-			response.Code, response.Message)
-	} else {
-		var result []*common.WaaSGetWalletBalanceDTOData
-		if err := json.Unmarshal(response.Data, &result); err != nil {
-			return nil, fmt.Errorf("unmarshal response failed, %v", err)
-		}
-		return result, nil
-	}
-}
-
 // IsValidAddress 检查币种地址是否正确
 // POST: /v1/waas/mpc/is_valid_address
 func (m *mpcAPI) IsValidAddress(param *common.WaaSAddressCheckParam) (*common.WaaSAddressCheckDTOData, error) {

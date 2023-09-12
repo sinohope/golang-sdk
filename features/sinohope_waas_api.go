@@ -47,10 +47,6 @@ type MPCAPI interface {
 	// POST: /v1/waas/mpc/wallet/get_address_balance
 	GetAddressBalance(param *common.WaaSGetAddressBalanceParam) (*common.WaaSGetWalletBalanceDTOData, error)
 
-	// GetWalletBalance 查询指定钱包所有币种的余额信息
-	// POST: /v1/waas/mpc/wallet/get_wallet_balance
-	GetWalletBalance(param *common.WaaSGetWalletBalanceParam) ([]*common.WaaSGetWalletBalanceDTOData, error)
-
 	// IsValidAddress 检查币种地址是否正确
 	// POST: /v1/waas/mpc/is_valid_address
 	IsValidAddress(param *common.WaaSAddressCheckParam) (*common.WaaSAddressCheckDTOData, error)

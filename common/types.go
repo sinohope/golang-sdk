@@ -164,7 +164,7 @@ type TransferHistoryWAASDTO struct {
 	AssetName    string          `json:"assetName,omitempty"`
 	ChainSymbol  string          `json:"chainSymbol,omitempty"`
 	ChainName    string          `json:"chainName,omitempty"`
-	TxDirection  string          `json:"txDirection,omitempty"`
+	TxDirection  int             `json:"txDirection,omitempty"`
 	TxType       string          `json:"txType,omitempty"`
 	Decimal      int             `json:"decimal,omitempty"`
 	CoinDecimals int             `json:"coinDecimals,omitempty"`
@@ -301,18 +301,13 @@ type WaaSGetAddressBalanceParam struct {
 	Address string `json:"address,omitempty"` // 地址
 }
 
-type WaaSGetWalletBalanceParam struct {
-	WalletId  string `json:"walletId,omitempty"`  // 钱包id
-	PageIndex int    `json:"pageIndex,omitempty"` // 当前页码，首页为0,默认0
-	PageSize  int    `json:"pageSize,omitempty"`  // 每页数据条数（不得小于1,不得大于50）
-}
-
 type WaaSAddressCheckParam struct {
 	AssetId string `json:"assetId,omitempty"` // 币种代号 币标识 具有唯一性
 	Address string `json:"address,omitempty"` // 地址
 }
 
 type WaaSTransferAddressBookParam struct {
+	VaultId     string `json:"vaultId,omitempty"`     // 金库ID
 	ChainSymbol string `json:"chainSymbol,omitempty"` // 链名称 简称 链标识 具有唯一性
 	PageIndex   int    `json:"pageIndex,omitempty"`   // 当前页码，首页为0,默认0
 	PageSize    int    `json:"pageSize,omitempty"`    // 每页数据条数（不得小于1,不得大于50）
@@ -334,7 +329,7 @@ type WalletTransactionSendWAASParam struct {
 	Fee         string `json:"fee,omitempty"`         // 手续费 对于 UTXO 类的非EVM兼容链的交易,自设置fee, 如参数为 UTXO 资产转账提供，表示每字节的手续费
 	GasPrice    string `json:"gasPrice,omitempty"`    // 交易gasPrice，燃料价格，ETH 账号模型适用，单位为 wei
 	GasLimit    string `json:"gasLimit,omitempty"`    // 交易gasLimit，燃料上限，ETH 账号模型适用
-	Remark      string `json:"remark,omitempty"`      // 备注：用于用户自己需要的一些备注信息
+	Note        string `json:"note,omitempty"`        // 备注：用于用户自己需要的一些备注信息
 	VaultId     string `json:"vaultId,omitempty"`     // 金库id
 }
 
@@ -342,7 +337,6 @@ type WalletTransactionSendDataWAASParam struct {
 	WalletId    string `json:"walletId,omitempty"`    // 钱包id
 	RequestId   string `json:"requestId,omitempty"`   // 请求方交易的requestId
 	ChainSymbol string `json:"chainSymbol,omitempty"` // 链标识
-	AssetId     string `json:"assetId,omitempty"`     // 资产id
 	From        string `json:"from,omitempty"`        // from 地址
 	To          string `json:"to,omitempty"`          // to地址
 	ToTag       string `json:"toTag,omitempty"`       // 交易的memo
@@ -350,7 +344,7 @@ type WalletTransactionSendDataWAASParam struct {
 	Fee         string `json:"fee,omitempty"`         // 手续费 对于 UTXO 类的非EVM兼容链的交易,自设置fee, 如参数为 UTXO 资产转账提供，表示每字节的手续费
 	GasPrice    string `json:"gasPrice,omitempty"`    // gasprice
 	GasLimit    string `json:"gasLimit,omitempty"`    // gaslimit
-	Remark      string `json:"remark,omitempty"`      // 备注：用于用户自己需要的一些备注信息
+	Note        string `json:"note,omitempty"`        // 备注：用于用户自己需要的一些备注信息
 	InputData   string `json:"inputData,omitempty"`   // 以太坊交易data
 	VaultId     string `json:"vaultId,omitempty"`     // 金库id
 }
@@ -361,7 +355,6 @@ type WalletTransactionSpeedupWAASParam struct {
 	GasPrice    string `json:"gasPrice,omitempty"`    // 交易gasPrice，燃料价格，ETH 账号模型适用，单位为 wei
 	Fee         string `json:"fee,omitempty"`         // 手续费 对于 UTXO 类的非EVM兼容链的交易,自设置fee, 如参数为 UTXO 资产转账提供，表示每字节的手续费
 	ChainSymbol string `json:"chainSymbol,omitempty"` // 链标识
-	AssetId     string `json:"assetId,omitempty"`     // 资产id
 }
 
 type WalletTransactionCancelWAASParam struct {
