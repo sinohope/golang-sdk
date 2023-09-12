@@ -32,7 +32,7 @@ func TestMPCNodeAPI(t *testing.T) {
 		PageIndex:          0,
 		PageSize:           40,
 	}
-	var result *common.PageData
+	var result *common.TransferHistoryWAASDTO
 	if result, err = m.ListMPCRequests(request); err != nil {
 		t.Fatalf("list mpc requests failed, %v", err)
 	} else {

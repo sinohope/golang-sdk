@@ -28,7 +28,10 @@ func TestMPCAPI(t *testing.T) {
 	}
 
 	var walletInfo []*common.WaasWalletInfoData
-	if walletInfo, err = m.CreateWallets(&common.WaaSCreateBatchWalletParam{}); err != nil {
+	if walletInfo, err = m.CreateWallets(&common.WaaSCreateBatchWalletParam{
+		VaultId:   "456517693645317",
+		RequestId: "fake-request-id",
+	}); err != nil {
 		t.Fatalf("create wallets failed, %v", err)
 	} else {
 		t.Logf("create wallets success, %v", walletInfo)

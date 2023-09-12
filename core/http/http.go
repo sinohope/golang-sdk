@@ -12,19 +12,19 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-type http struct {
+type httpImpl struct {
 	baseUrl string
 	signer  features.Signer
 }
 
 func NewHTTP(baseUrl string, signer features.Signer) (features.HTTP, error) {
-	return &http{
+	return &httpImpl{
 		baseUrl: baseUrl,
 		signer:  signer,
 	}, nil
 }
 
-func (h *http) Post(path string, request interface{}) (*common.Response, error) {
+func (h *httpImpl) Post(path string, request interface{}) (*common.Response, error) {
 	payload, err := json.Marshal(request)
 	if err != nil {
 		return nil, fmt.Errorf("marshal payload failed, %v", err)
@@ -44,7 +44,7 @@ func (h *http) Post(path string, request interface{}) (*common.Response, error) 
 		header[common.BizApiSignature] = signature
 	}
 	url := fmt.Sprintf("%s%s", h.baseUrl, path)
-	if result, err := h.post(url, header, request); err != nil {
+	if result, err := doPost(url, header, request); err != nil {
 		return nil, fmt.Errorf("post request failed, %v", err)
 	} else {
 		logrus.
@@ -61,7 +61,7 @@ func (h *http) Post(path string, request interface{}) (*common.Response, error) 
 	}
 }
 
-func (h *http) post(url string, headers map[string]string, body interface{}) ([]byte, error) {
+func doPost(url string, headers map[string]string, body interface{}) ([]byte, error) {
 	payloadBytes, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
