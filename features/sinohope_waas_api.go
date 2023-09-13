@@ -37,7 +37,7 @@ type MPCAPI interface {
 
 	// ListWallets 查询钱包列表
 	// POST: /v1/waas/mpc/wallet/list_wallets
-	ListWallets(param *common.WaaSListWalletsParam) ([]*common.WaaSWalletInfoData, error)
+	ListWallets(param *common.WaaSListWalletsParam) (*common.TransferHistoryWAASDTO, error)
 
 	// ListAddedChains 查询指定钱包下已添加地址的链及其首个地址信息
 	// POST: /v1/waas/mpc/wallet/list_added_chains
@@ -47,17 +47,13 @@ type MPCAPI interface {
 	// POST: /v1/waas/mpc/wallet/get_address_balance
 	GetAddressBalance(param *common.WaaSGetAddressBalanceParam) (*common.WaaSGetWalletBalanceDTOData, error)
 
-	// GetWalletBalance 查询指定钱包所有币种的余额信息
-	// POST: /v1/waas/mpc/wallet/get_wallet_balance
-	GetWalletBalance(param *common.WaaSGetWalletBalanceParam) ([]*common.WaaSGetWalletBalanceDTOData, error)
-
 	// IsValidAddress 检查币种地址是否正确
 	// POST: /v1/waas/mpc/is_valid_address
 	IsValidAddress(param *common.WaaSAddressCheckParam) (*common.WaaSAddressCheckDTOData, error)
 
 	// TransferAddressBook 当前金库设置开关以后,支持转账的地址簿
 	// POST: /v1/waas/mpc/wallet/transfer_address_book
-	TransferAddressBook(param *common.WaaSTransferAddressBookParam) ([]*common.WaaSTransferAddressBookDTOData, error)
+	TransferAddressBook(param *common.WaaSTransferAddressBookParam) (*common.TransferHistoryWAASDTO, error)
 
 	// TransferRiskControlSwitch 查询当前金库是否设置了风控开关
 	// POST: /v1/waas/mpc/wallet/transfer_risk_control_switch
@@ -81,19 +77,19 @@ type MPCAPI interface {
 
 	// ListTransactions 交易列表
 	// POST: /v1/waas/mpc/transaction/list_transactions
-	ListTransactions(param *common.WalletTransactionQueryWAASParam) ([]*common.TransferHistoryWAASDTO, error)
+	ListTransactions(param *common.WalletTransactionQueryWAASParam) (*common.TransferHistoryWAASDTO, error)
 
 	// TransactionsByRequestIds 根据requestIds查询交易列表
 	// POST: /v1/waas/mpc/transaction/transactions_by_request_ids
-	TransactionsByRequestIds(param *common.WalletTransactionQueryWAASRequestIdParam) ([]*common.TransferHistoryWAASDTO, error)
+	TransactionsByRequestIds(param *common.WalletTransactionQueryWAASRequestIdParam) (*common.TransferHistoryWAASDTO, error)
 
 	// TransactionsBySinoIds 根据sinoIds查询交易列表
 	// POST: /v1/waas/mpc/transaction/transactions_by_sino_ids
-	TransactionsBySinoIds(param *common.WalletTransactionQueryBySinoIdParam) ([]*common.TransferHistoryWAASDTO, error)
+	TransactionsBySinoIds(param *common.WalletTransactionQueryBySinoIdParam) (*common.TransferHistoryWAASDTO, error)
 
 	// TransactionsByTxHash 根据txHash查询交易列表
 	// POST: /v1/waas/mpc/transaction/transactions_by_tx_hash
-	TransactionsByTxHash(param *common.WalletTransactionQueryWAASTxHashdParam) ([]*common.TransferHistoryWAASDTO, error)
+	TransactionsByTxHash(param *common.WalletTransactionQueryWAASTxHashdParam) (*common.TransferHistoryWAASDTO, error)
 
 	// SignMessage 按已知的规范签名消息（EIP-191、 EIP-712）
 	// POST: /v1/waas/mpc/web3/sign_message
@@ -105,15 +101,15 @@ type AdvanceAPI interface {
 
 	// SignRawData 原始数据签名
 	// POST: /v1/waas/mpc/wallet/advance/sign_raw_data
-	SignRawData(param *common.WaasSignRawDataParam) (*common.Response, error)
+	SignRawData(param *common.WaasSignRawDataParam) (*common.CreateSettlementTxResData, error)
 
 	// GenAddressByPath 根据指定的路径创建地址
 	// POST: /v1/waas/mpc/wallet/advance/gen_address_by_path
-	GenAddressByPath(param *common.WaasAddressPathParam) (*common.Response, error)
+	GenAddressByPath(param *common.WaasAddressPathParam) (*common.WaaSAddressInfoData, error)
 
 	// UpdateWallet 更新钱包属性（高级功能开启、关闭）
 	// POST: /v1/waas/mpc/wallet/advance/update_wallet
-	UpdateWallet(param *common.WaasUpdateWalletParam) (*common.Response, error)
+	UpdateWallet(param *common.WaasUpdateWalletParam) (*common.CreateSettlementTxResData, error)
 }
 
 type MPCNodeAPI interface {
@@ -121,7 +117,7 @@ type MPCNodeAPI interface {
 
 	// ListMPCRequests 查询mpc协议执行记录
 	// POST: /v1/waas/mpc/mpcnode/list_mpc_requests
-	ListMPCRequests(param *common.WaasMpcNodeExecRecordParam) (*common.PageData, error)
+	ListMPCRequests(param *common.WaasMpcNodeExecRecordParam) (*common.TransferHistoryWAASDTO, error)
 
 	// Status 查询MPC node状态
 	// POST: /v1/waas/mpc/mpcnode/status

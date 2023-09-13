@@ -5,7 +5,7 @@ import "encoding/json"
 const (
 	FakePublicKey  = "3059301306072a8648ce3d020106082a8648ce3d0301070342000421627f551985a685e00188665a6a2f4fa80d5569fd53b31471785aad62fc9b2e23e8a9ba8a3d03b90d2c8fa5fad26fb2a05a9e7477a1ee5e4228bd85bd660309"
 	FakePrivateKey = "308193020100301306072a8648ce3d020106082a8648ce3d030107047930770201010420d59deed8651f9dc130ce12c7ce9ddbda1129a2dc0d57c6e42596188c041a9aa8a00a06082a8648ce3d030107a1440342000421627f551985a685e00188665a6a2f4fa80d5569fd53b31471785aad62fc9b2e23e8a9ba8a3d03b90d2c8fa5fad26fb2a05a9e7477a1ee5e4228bd85bd660309"
-	BaseUrl        = "http://mpc-exchange-demo.mpc.qa1.newhuoapps.com"
+	BaseUrl        = "https://api.sinohope.com"
 
 	BizApiKey       = "BIZ-API-KEY"
 	BizApiNone      = "BIZ-API-NONCE"
@@ -92,51 +92,49 @@ type WaaSAddressCheckDTOData struct {
 	IsValid bool `json:"isValid,omitempty"` // 检查结果
 }
 
-type WaaSTransferAddressBookDTOData struct {
-	Address string `json:"address,omitempty"` // 地址
-}
-
 type WaaSTransferAddressSwitchDTOData struct {
 	RiskControlEnabled bool `json:"riskControlEnabled,omitempty"` // 风控开关 (true 开启, false 关闭)
 }
 
 type CreateSettlementTxResData struct {
-	SinoId        int64  `json:"sinoId,omitempty"`
-	ChainSymbol   string `json:"chainSymbol,omitempty"`
-	TxType        string `json:"txType,omitempty"`
-	HasToBeSigned string `json:"hasToBeSigned,omitempty"`
-	Data          TxInfo `json:"data,omitempty"`
-	Hdpath        string `json:"hdpath,omitempty"`
-	Cryptography  string `json:"cryptography,omitempty"`
+	SinoId         int64  `json:"sinoId,omitempty"`
+	RequestId      string `json:"requestId,omitempty"`
+	ReplacedSinoId string `json:"replacedSinoId,omitempty"`
+	ChainSymbol    string `json:"chainSymbol,omitempty"`
+	TxDirection    int    `json:"txDirection,omitempty"`
+	Transaction    TxInfo `json:"transaction,omitempty"`
+	State          int    `json:"state,omitempty"`
+	Note           string `json:"note,omitempty"`
+	UpdateWallet   bool   `json:"updateWallet,omitempty"`
 }
 
 type TxInfo struct {
-	Asset             string     `json:"asset,omitempty"`
+	TxHash            string     `json:"txHash,omitempty"`
+	ActionType        string     `json:"actionType,omitempty"`
 	From              string     `json:"from,omitempty"`
 	FromTag           string     `json:"fromTag,omitempty"`
 	To                string     `json:"to,omitempty"`
 	ToTag             string     `json:"toTag,omitempty"`
 	Amount            string     `json:"amount,omitempty"`
-	Fee               string     `json:"fee,omitempty"`
-	TxType            int        `json:"txType,omitempty"`
-	FeeAsset          string     `json:"feeAsset,omitempty"`
-	FeePrice          string     `json:"feePrice,omitempty"`
-	FeeStep           string     `json:"feeStep,omitempty"`
-	ChainId           string     `json:"chainId,omitempty"`
-	Nonce             string     `json:"nonce,omitempty"`
+	AssetId           string     `json:"assetId,omitempty"`
 	Decimal           int        `json:"decimal,omitempty"`
-	CurrentTime       int64      `json:"currentTime,omitempty"`
-	ExpireTime        int64      `json:"expireTime,omitempty"`
-	ExpireBlockHeight int64      `json:"expireBlockHeight,omitempty"`
-	ReferBlockHeight  int64      `json:"referBlockHeight,omitempty"`
+	ContractAddress   string     `json:"contractAddress,omitempty"`
+	FeeAsset          string     `json:"feeAsset,omitempty"`
+	FeeAssetDecimal   int        `json:"feeAssetDecimal,omitempty"`
+	UsedFee           string     `json:"usedFee,omitempty"`
+	Fee               string     `json:"fee,omitempty"`
+	GasPrice          string     `json:"gasPrice,omitempty"`
+	GasLimit          string     `json:"gasLimit,omitempty"`
+	Nonce             string     `json:"nonce,omitempty"`
+	InputData         string     `json:"inputData,omitempty"`
+	ExpireTime        int        `json:"expireTime,omitempty"`
+	ExpireBlockHeight int        `json:"expireBlockHeight,omitempty"`
+	ReferBlockHeight  int        `json:"referBlockHeight,omitempty"`
 	Vin               []VinItem  `json:"vin,omitempty"`
 	Vout              []VoutItem `json:"vout,omitempty"`
-	FunName           string     `json:"funName,omitempty"`
-	Params            []string   `json:"params,omitempty"`
 }
 
 type VinItem struct {
-	Id        int64  `json:"id,omitempty"`
 	Hash      string `json:"hash,omitempty"`
 	VoutIndex string `json:"voutIndex,omitempty"`
 	Address   string `json:"address,omitempty"`
@@ -145,7 +143,6 @@ type VinItem struct {
 }
 
 type VoutItem struct {
-	Asset   string `json:"asset,omitempty"`
 	Address string `json:"address,omitempty"`
 	Amount  string `json:"amount,omitempty"`
 }
@@ -153,23 +150,12 @@ type VoutItem struct {
 type BaseWaasParam struct {
 	PageIndex int `json:"pageIndex,omitempty"`
 	PageSize  int `json:"pageSize,omitempty"`
-	Offset    int `json:"offset,omitempty"`
+	TotalSize int `json:"totalSize,omitempty"`
 }
 
 type TransferHistoryWAASDTO struct {
 	BaseWaasParam
-
-	SinoId       int64           `json:"sinoId,omitempty"`
-	AssetId      string          `json:"assetId,omitempty"`
-	AssetName    string          `json:"assetName,omitempty"`
-	ChainSymbol  string          `json:"chainSymbol,omitempty"`
-	ChainName    string          `json:"chainName,omitempty"`
-	TxDirection  string          `json:"txDirection,omitempty"`
-	TxType       string          `json:"txType,omitempty"`
-	Decimal      int             `json:"decimal,omitempty"`
-	CoinDecimals int             `json:"coinDecimals,omitempty"`
-	Transaction  TransactionWAAS `json:"transaction,omitempty"`
-	UpdateTime   string          `json:"updateTime,omitempty"`
+	List []CreateSettlementTxResData `json:"list,omitempty"`
 }
 
 type TransactionWAAS struct {
@@ -301,18 +287,13 @@ type WaaSGetAddressBalanceParam struct {
 	Address string `json:"address,omitempty"` // 地址
 }
 
-type WaaSGetWalletBalanceParam struct {
-	WalletId  string `json:"walletId,omitempty"`  // 钱包id
-	PageIndex int    `json:"pageIndex,omitempty"` // 当前页码，首页为0,默认0
-	PageSize  int    `json:"pageSize,omitempty"`  // 每页数据条数（不得小于1,不得大于50）
-}
-
 type WaaSAddressCheckParam struct {
 	AssetId string `json:"assetId,omitempty"` // 币种代号 币标识 具有唯一性
 	Address string `json:"address,omitempty"` // 地址
 }
 
 type WaaSTransferAddressBookParam struct {
+	VaultId     string `json:"vaultId,omitempty"`     // 金库ID
 	ChainSymbol string `json:"chainSymbol,omitempty"` // 链名称 简称 链标识 具有唯一性
 	PageIndex   int    `json:"pageIndex,omitempty"`   // 当前页码，首页为0,默认0
 	PageSize    int    `json:"pageSize,omitempty"`    // 每页数据条数（不得小于1,不得大于50）
@@ -334,7 +315,7 @@ type WalletTransactionSendWAASParam struct {
 	Fee         string `json:"fee,omitempty"`         // 手续费 对于 UTXO 类的非EVM兼容链的交易,自设置fee, 如参数为 UTXO 资产转账提供，表示每字节的手续费
 	GasPrice    string `json:"gasPrice,omitempty"`    // 交易gasPrice，燃料价格，ETH 账号模型适用，单位为 wei
 	GasLimit    string `json:"gasLimit,omitempty"`    // 交易gasLimit，燃料上限，ETH 账号模型适用
-	Remark      string `json:"remark,omitempty"`      // 备注：用于用户自己需要的一些备注信息
+	Note        string `json:"note,omitempty"`        // 备注：用于用户自己需要的一些备注信息
 	VaultId     string `json:"vaultId,omitempty"`     // 金库id
 }
 
@@ -342,7 +323,6 @@ type WalletTransactionSendDataWAASParam struct {
 	WalletId    string `json:"walletId,omitempty"`    // 钱包id
 	RequestId   string `json:"requestId,omitempty"`   // 请求方交易的requestId
 	ChainSymbol string `json:"chainSymbol,omitempty"` // 链标识
-	AssetId     string `json:"assetId,omitempty"`     // 资产id
 	From        string `json:"from,omitempty"`        // from 地址
 	To          string `json:"to,omitempty"`          // to地址
 	ToTag       string `json:"toTag,omitempty"`       // 交易的memo
@@ -350,7 +330,7 @@ type WalletTransactionSendDataWAASParam struct {
 	Fee         string `json:"fee,omitempty"`         // 手续费 对于 UTXO 类的非EVM兼容链的交易,自设置fee, 如参数为 UTXO 资产转账提供，表示每字节的手续费
 	GasPrice    string `json:"gasPrice,omitempty"`    // gasprice
 	GasLimit    string `json:"gasLimit,omitempty"`    // gaslimit
-	Remark      string `json:"remark,omitempty"`      // 备注：用于用户自己需要的一些备注信息
+	Note        string `json:"note,omitempty"`        // 备注：用于用户自己需要的一些备注信息
 	InputData   string `json:"inputData,omitempty"`   // 以太坊交易data
 	VaultId     string `json:"vaultId,omitempty"`     // 金库id
 }
@@ -361,7 +341,6 @@ type WalletTransactionSpeedupWAASParam struct {
 	GasPrice    string `json:"gasPrice,omitempty"`    // 交易gasPrice，燃料价格，ETH 账号模型适用，单位为 wei
 	Fee         string `json:"fee,omitempty"`         // 手续费 对于 UTXO 类的非EVM兼容链的交易,自设置fee, 如参数为 UTXO 资产转账提供，表示每字节的手续费
 	ChainSymbol string `json:"chainSymbol,omitempty"` // 链标识
-	AssetId     string `json:"assetId,omitempty"`     // 资产id
 }
 
 type WalletTransactionCancelWAASParam struct {

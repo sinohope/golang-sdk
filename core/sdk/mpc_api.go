@@ -74,14 +74,14 @@ func (m *mpcAPI) GenerateChainAddresses(param *common.WaaSGenerateChainAddressPa
 
 // ListWallets 查询钱包列表
 // POST: /v1/waas/mpc/wallet/list_wallets
-func (m *mpcAPI) ListWallets(param *common.WaaSListWalletsParam) ([]*common.WaaSWalletInfoData, error) {
+func (m *mpcAPI) ListWallets(param *common.WaaSListWalletsParam) (*common.TransferHistoryWAASDTO, error) {
 	if response, err := m.h.Post("/v1/waas/mpc/wallet/list_wallets", param); err != nil {
 		return nil, fmt.Errorf("send request failed, %v", err)
 	} else if response.Code != common.MPCProxyStatusOk {
 		return nil, fmt.Errorf("error response, code: %v msg: %v",
 			response.Code, response.Message)
 	} else {
-		var result []*common.WaaSWalletInfoData
+		var result *common.TransferHistoryWAASDTO
 		if err := json.Unmarshal(response.Data, &result); err != nil {
 			return nil, fmt.Errorf("unmarshal response failed, %v", err)
 		}
@@ -123,23 +123,6 @@ func (m *mpcAPI) GetAddressBalance(param *common.WaaSGetAddressBalanceParam) (*c
 	}
 }
 
-// GetWalletBalance 查询指定钱包所有币种的余额信息
-// POST: /v1/waas/mpc/wallet/get_wallet_balance
-func (m *mpcAPI) GetWalletBalance(param *common.WaaSGetWalletBalanceParam) ([]*common.WaaSGetWalletBalanceDTOData, error) {
-	if response, err := m.h.Post("/v1/waas/mpc/wallet/get_wallet_balance", param); err != nil {
-		return nil, fmt.Errorf("send request failed, %v", err)
-	} else if response.Code != common.MPCProxyStatusOk {
-		return nil, fmt.Errorf("error response, code: %v msg: %v",
-			response.Code, response.Message)
-	} else {
-		var result []*common.WaaSGetWalletBalanceDTOData
-		if err := json.Unmarshal(response.Data, &result); err != nil {
-			return nil, fmt.Errorf("unmarshal response failed, %v", err)
-		}
-		return result, nil
-	}
-}
-
 // IsValidAddress 检查币种地址是否正确
 // POST: /v1/waas/mpc/is_valid_address
 func (m *mpcAPI) IsValidAddress(param *common.WaaSAddressCheckParam) (*common.WaaSAddressCheckDTOData, error) {
@@ -159,14 +142,14 @@ func (m *mpcAPI) IsValidAddress(param *common.WaaSAddressCheckParam) (*common.Wa
 
 // TransferAddressBook 当前金库设置开关以后,支持转账的地址簿
 // POST: /v1/waas/mpc/wallet/transfer_address_book
-func (m *mpcAPI) TransferAddressBook(param *common.WaaSTransferAddressBookParam) ([]*common.WaaSTransferAddressBookDTOData, error) {
+func (m *mpcAPI) TransferAddressBook(param *common.WaaSTransferAddressBookParam) (*common.TransferHistoryWAASDTO, error) {
 	if response, err := m.h.Post("/v1/waas/mpc/wallet/transfer_address_book", param); err != nil {
 		return nil, fmt.Errorf("send request failed, %v", err)
 	} else if response.Code != common.MPCProxyStatusOk {
 		return nil, fmt.Errorf("error response, code: %v msg: %v",
 			response.Code, response.Message)
 	} else {
-		var result []*common.WaaSTransferAddressBookDTOData
+		var result *common.TransferHistoryWAASDTO
 		if err := json.Unmarshal(response.Data, &result); err != nil {
 			return nil, fmt.Errorf("unmarshal response failed, %v", err)
 		}
@@ -261,14 +244,14 @@ func (m *mpcAPI) CancelTransaction(param *common.WalletTransactionCancelWAASPara
 
 // ListTransactions 交易列表
 // POST: /v1/waas/mpc/transaction/list_transactions
-func (m *mpcAPI) ListTransactions(param *common.WalletTransactionQueryWAASParam) ([]*common.TransferHistoryWAASDTO, error) {
+func (m *mpcAPI) ListTransactions(param *common.WalletTransactionQueryWAASParam) (*common.TransferHistoryWAASDTO, error) {
 	if response, err := m.h.Post("/v1/waas/mpc/wallet/list_transactions", param); err != nil {
 		return nil, fmt.Errorf("send request failed, %v", err)
 	} else if response.Code != common.MPCProxyStatusOk {
 		return nil, fmt.Errorf("error response, code: %v msg: %v",
 			response.Code, response.Message)
 	} else {
-		var result []*common.TransferHistoryWAASDTO
+		var result *common.TransferHistoryWAASDTO
 		if err := json.Unmarshal(response.Data, &result); err != nil {
 			return nil, fmt.Errorf("unmarshal response failed, %v", err)
 		}
@@ -278,14 +261,14 @@ func (m *mpcAPI) ListTransactions(param *common.WalletTransactionQueryWAASParam)
 
 // TransactionsByRequestIds 根据requestIds查询交易列表
 // POST: /v1/waas/mpc/transaction/transactions_by_request_ids
-func (m *mpcAPI) TransactionsByRequestIds(param *common.WalletTransactionQueryWAASRequestIdParam) ([]*common.TransferHistoryWAASDTO, error) {
+func (m *mpcAPI) TransactionsByRequestIds(param *common.WalletTransactionQueryWAASRequestIdParam) (*common.TransferHistoryWAASDTO, error) {
 	if response, err := m.h.Post("/v1/waas/mpc/wallet/transactions_by_request_ids", param); err != nil {
 		return nil, fmt.Errorf("send request failed, %v", err)
 	} else if response.Code != common.MPCProxyStatusOk {
 		return nil, fmt.Errorf("error response, code: %v msg: %v",
 			response.Code, response.Message)
 	} else {
-		var result []*common.TransferHistoryWAASDTO
+		var result *common.TransferHistoryWAASDTO
 		if err := json.Unmarshal(response.Data, &result); err != nil {
 			return nil, fmt.Errorf("unmarshal response failed, %v", err)
 		}
@@ -295,14 +278,14 @@ func (m *mpcAPI) TransactionsByRequestIds(param *common.WalletTransactionQueryWA
 
 // TransactionsBySinoIds 根据sinoIds查询交易列表
 // POST: /v1/waas/mpc/transaction/transactions_by_sino_ids
-func (m *mpcAPI) TransactionsBySinoIds(param *common.WalletTransactionQueryBySinoIdParam) ([]*common.TransferHistoryWAASDTO, error) {
+func (m *mpcAPI) TransactionsBySinoIds(param *common.WalletTransactionQueryBySinoIdParam) (*common.TransferHistoryWAASDTO, error) {
 	if response, err := m.h.Post("/v1/waas/mpc/wallet/transactions_by_sino_ids", param); err != nil {
 		return nil, fmt.Errorf("send request failed, %v", err)
 	} else if response.Code != common.MPCProxyStatusOk {
 		return nil, fmt.Errorf("error response, code: %v msg: %v",
 			response.Code, response.Message)
 	} else {
-		var result []*common.TransferHistoryWAASDTO
+		var result *common.TransferHistoryWAASDTO
 		if err := json.Unmarshal(response.Data, &result); err != nil {
 			return nil, fmt.Errorf("unmarshal response failed, %v", err)
 		}
@@ -312,14 +295,14 @@ func (m *mpcAPI) TransactionsBySinoIds(param *common.WalletTransactionQueryBySin
 
 // TransactionsByTxHash 根据txHash查询交易列表
 // POST: /v1/waas/mpc/transaction/transactions_by_tx_hash
-func (m *mpcAPI) TransactionsByTxHash(param *common.WalletTransactionQueryWAASTxHashdParam) ([]*common.TransferHistoryWAASDTO, error) {
+func (m *mpcAPI) TransactionsByTxHash(param *common.WalletTransactionQueryWAASTxHashdParam) (*common.TransferHistoryWAASDTO, error) {
 	if response, err := m.h.Post("/v1/waas/mpc/wallet/transactions_by_tx_hash", param); err != nil {
 		return nil, fmt.Errorf("send request failed, %v", err)
 	} else if response.Code != common.MPCProxyStatusOk {
 		return nil, fmt.Errorf("error response, code: %v msg: %v",
 			response.Code, response.Message)
 	} else {
-		var result []*common.TransferHistoryWAASDTO
+		var result *common.TransferHistoryWAASDTO
 		if err := json.Unmarshal(response.Data, &result); err != nil {
 			return nil, fmt.Errorf("unmarshal response failed, %v", err)
 		}
