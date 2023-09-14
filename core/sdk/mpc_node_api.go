@@ -43,7 +43,7 @@ func (m *mpcNodeAPI) ListMPCRequests(param *common.WaasMpcNodeExecRecordParam) (
 // Status 查询MPC node状态
 // POST: /v1/waas/mpc/mpcnode/status
 func (m *mpcNodeAPI) Status() (*common.WaaSMpcNodeStatusDTOData, error) {
-	if response, err := m.gw.Post("/v1/waas/mpc/mpcnode/list_mpc_requests", nil); err != nil {
+	if response, err := m.gw.Post("/v1/waas/mpc/mpcnode/status", nil); err != nil {
 		return nil, fmt.Errorf("send request failed, %v", err)
 	} else if response.Code != common.MPCProxyStatusOk {
 		return nil, fmt.Errorf("error response, code: %v msg: %v",
