@@ -86,7 +86,7 @@ func checkMPCNodeStatus() {
 	request := &common.WaasMpcNodeExecRecordParam{
 		BusinessExecType:   1,
 		BusinessExecStatus: 10,
-		SinoId:             "fake sino id",
+		SinoId:             "fake-sino-id",
 		PageIndex:          0,
 		PageSize:           40,
 	}
@@ -95,7 +95,7 @@ func checkMPCNodeStatus() {
 		logrus.Errorf("list mpc requests failed, %v", err)
 	} else {
 		// TODO: do something with result
-		fmt.Printf("-----------> [%s]", result.List)
+		fmt.Printf("-----------> [%v]", result.List)
 	}
 	var status *common.WaaSMpcNodeStatusDTOData
 	if status, err = m.Status(); err != nil {
