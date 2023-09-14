@@ -2,8 +2,6 @@ package sdk
 
 import (
 	"github.com/sinohope/sinohope-golang-sdk/common"
-	"github.com/sinohope/sinohope-golang-sdk/core/http"
-	"github.com/sinohope/sinohope-golang-sdk/core/signer"
 	"github.com/sinohope/sinohope-golang-sdk/log"
 	"testing"
 )
@@ -13,15 +11,7 @@ func TestMPCNodeAPI(t *testing.T) {
 	l := log.Log{}
 	log.SetLogDetailsByConfig(a, l)
 
-	s, err := signer.NewSigner(common.FakePrivateKey)
-	if err != nil {
-		t.Fatalf("create new signer failed, %v", err)
-	}
-	p, err := http.NewHTTP(common.BaseUrl, s)
-	if err != nil {
-		t.Fatalf("create new http failed, %v", err)
-	}
-	m, err := NewMPCNodeAPI(p)
+	m, err := NewMPCNodeAPI(common.BaseUrl, common.FakePrivateKey)
 	if err != nil {
 		t.Fatalf("create new mpc node api failed, %v", err)
 	}

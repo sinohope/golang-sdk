@@ -8,9 +8,8 @@ import (
 	"encoding/hex"
 	"flag"
 	"fmt"
-	"github.com/sinohope/sinohope-golang-sdk/core/http"
+
 	"github.com/sinohope/sinohope-golang-sdk/core/sdk"
-	"github.com/sinohope/sinohope-golang-sdk/core/signer"
 	"github.com/sinohope/sinohope-golang-sdk/log"
 	"github.com/sirupsen/logrus"
 
@@ -79,17 +78,7 @@ func checkMPCNodeStatus() {
 		WithField("public", public).
 		WithField("private", private).
 		Infof("after generate ECDSA keypair")
-	s, err := signer.NewSigner(private)
-	if err != nil {
-		logrus.Errorf("create new signer failed, %v", err)
-		return
-	}
-	p, err := http.NewHTTP(common.BaseUrl, s)
-	if err != nil {
-		logrus.Errorf("create http failed, %v", err)
-		return
-	}
-	m, err := sdk.NewMPCNodeAPI(p)
+	m, err := sdk.NewMPCNodeAPI(common.BaseUrl, common.FakePrivateKey)
 	if err != nil {
 		logrus.Errorf("create mpc node sdk failed, %v", err)
 		return

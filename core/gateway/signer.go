@@ -1,11 +1,10 @@
-package signer
+package gateway
 
 import (
 	"crypto/ecdsa"
 	"crypto/x509"
 	"encoding/hex"
 	"fmt"
-	"github.com/sinohope/sinohope-golang-sdk/features"
 	"github.com/sirupsen/logrus"
 	"sort"
 )
@@ -18,21 +17,21 @@ type signatureData struct {
 	PublicKey string `json:"public_key,omitempty"`
 }
 
-type signer struct {
+type Signer struct {
 	private *ecdsa.PrivateKey
 }
 
-func NewSigner(private string) (features.Signer, error) {
+func NewSigner(private string) (*Signer, error) {
 	pk, err := loadPrivate(private)
 	if err != nil {
 		return nil, fmt.Errorf("load private key failed, %v", err)
 	}
-	return &signer{
+	return &Signer{
 		private: pk,
 	}, nil
 }
 
-func (s *signer) Sign(path, timestamp, payload string) (string, error) {
+func (s *Signer) Sign(path, timestamp, payload string) (string, error) {
 	logrus.
 		WithField("path", path).
 		WithField("payload", payload).
@@ -57,7 +56,7 @@ func (s *signer) Sign(path, timestamp, payload string) (string, error) {
 	return signature, err
 }
 
-func (s *signer) PublicKey() string {
+func (s *Signer) PublicKey() string {
 	derBytes, err := x509.MarshalPKIXPublicKey(&s.private.PublicKey)
 	if err != nil {
 		return ""
@@ -65,7 +64,7 @@ func (s *signer) PublicKey() string {
 	return hex.EncodeToString(derBytes)
 }
 
-func (s *signer) PrivateKey() string {
+func (s *Signer) PrivateKey() string {
 	privateKeyBytes, err := x509.MarshalPKCS8PrivateKey(s.private)
 	if err != nil {
 		return ""
