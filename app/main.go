@@ -1,13 +1,10 @@
 package main
 
 import (
-	"crypto/ecdsa"
-	"crypto/elliptic"
-	"crypto/rand"
-	"crypto/x509"
-	"encoding/hex"
 	"flag"
 	"fmt"
+
+	"github.com/sinohope/sinohope-golang-sdk/features"
 
 	"github.com/sinohope/sinohope-golang-sdk/core/sdk"
 	"github.com/sinohope/sinohope-golang-sdk/log"
@@ -67,18 +64,10 @@ func check() error {
 }
 
 func checkMPCNodeStatus() {
-	public, private, err := generateECDSAPrivateKey()
-	if err != nil {
-		logrus.Errorf("create new ecdsa failed, %v", err)
-		return
-	}
-	//public := common.FakePublicKey
-	//private := common.FakePrivateKey
 	logrus.
-		WithField("public", public).
 		WithField("private", private).
 		Infof("after generate ECDSA keypair")
-	m, err := sdk.NewMPCNodeAPI(common.BaseUrl, common.FakePrivateKey)
+	m, err := sdk.NewSDK(common.BaseUrl, common.FakePrivateKey)
 	if err != nil {
 		logrus.Errorf("create mpc node sdk failed, %v", err)
 		return
@@ -91,29 +80,16 @@ func checkMPCNodeStatus() {
 		PageSize:           40,
 	}
 	var result *common.TransferHistoryWAASDTO
-	if result, err = m.ListMPCRequests(request); err != nil {
+	if result, err = m.(features.MPCNodeAPI).ListMPCRequests(request); err != nil {
 		logrus.Errorf("list mpc requests failed, %v", err)
 	} else {
 		// TODO: do something with result
 		fmt.Printf("-----------> [%v]", result.List)
 	}
 	var status *common.WaaSMpcNodeStatusDTOData
-	if status, err = m.Status(); err != nil {
+	if status, err = m.(features.MPCNodeAPI).Status(); err != nil {
 		logrus.Errorf("get mpc node status failed, %v", err)
 	} else {
 		logrus.Infof("get mpc node status success, %v", status)
 	}
-}
-
-func generateECDSAPrivateKey() (string, string, error) {
-	privateKey, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
-	if err != nil {
-		return "", "", err
-	}
-	pkcs8Bytes, err := x509.MarshalPKCS8PrivateKey(privateKey)
-	if err != nil {
-		return "", "", err
-	}
-	pubKeyBytes := elliptic.Marshal(privateKey.PublicKey.Curve, privateKey.PublicKey.X, privateKey.PublicKey.Y)
-	return hex.EncodeToString(pubKeyBytes), hex.EncodeToString(pkcs8Bytes), nil
 }
