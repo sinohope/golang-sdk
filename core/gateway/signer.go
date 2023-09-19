@@ -5,8 +5,9 @@ import (
 	"crypto/x509"
 	"encoding/hex"
 	"fmt"
-	"github.com/sirupsen/logrus"
 	"sort"
+
+	"github.com/sirupsen/logrus"
 )
 
 type signatureData struct {
@@ -19,15 +20,30 @@ type signatureData struct {
 
 type Signer struct {
 	private *ecdsa.PrivateKey
+
+	privateKeyStr string // x509 PKCS#8 private string
+	publicKeyStr  string // x509 ASN.1 der public string
 }
 
 func NewSigner(private string) (*Signer, error) {
-	pk, err := loadPrivate(private)
+	sk, err := loadPrivate(private)
 	if err != nil {
 		return nil, fmt.Errorf("load private key failed, %v", err)
 	}
+	privateKeyBytes, err := x509.MarshalPKCS8PrivateKey(sk)
+	if err != nil {
+		return nil, fmt.Errorf("marshal private key failed, %v", err)
+	}
+	derBytes, err := x509.MarshalPKIXPublicKey(&sk.PublicKey)
+	if err != nil {
+		return nil, fmt.Errorf("marshal public key failed, %v", err)
+	}
+	privateKeyStr := hex.EncodeToString(privateKeyBytes)
+	publicKeyStr := hex.EncodeToString(derBytes)
 	return &Signer{
-		private: pk,
+		private:       sk,
+		privateKeyStr: privateKeyStr,
+		publicKeyStr:  publicKeyStr,
 	}, nil
 }
 
@@ -57,19 +73,11 @@ func (s *Signer) Sign(path, timestamp, payload string) (string, error) {
 }
 
 func (s *Signer) PublicKey() string {
-	derBytes, err := x509.MarshalPKIXPublicKey(&s.private.PublicKey)
-	if err != nil {
-		return ""
-	}
-	return hex.EncodeToString(derBytes)
+	return s.publicKeyStr
 }
 
 func (s *Signer) PrivateKey() string {
-	privateKeyBytes, err := x509.MarshalPKCS8PrivateKey(s.private)
-	if err != nil {
-		return ""
-	}
-	return hex.EncodeToString(privateKeyBytes)
+	return s.privateKeyStr
 }
 
 func generateSignMetaDataAsString(appKey string, data map[string]string) string {
