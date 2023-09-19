@@ -2,15 +2,15 @@ package sdk
 
 import "github.com/sinohope/sinohope-golang-sdk/features"
 
-type sdkImpl struct {
-	features.CommonAPI
-	features.AccountAndAddressAPI
-	features.TransactionAPI
-	features.AdvanceAPI
-	features.MPCNodeAPI
+type APIClient struct {
+	Common            features.CommonAPI
+	AccountAndAddress features.AccountAndAddressAPI
+	Transaction       features.TransactionAPI
+	Advance           features.AdvanceAPI
+	MPCNode           features.MPCNodeAPI
 }
 
-func NewSDK(baseUrl, private string) (features.SinohopeWaaSAPI, error) {
+func NewApiClient(baseUrl, private string) (*APIClient, error) {
 	commonAPI, err := NewCommonAPI(baseUrl, private)
 	if err != nil {
 		return nil, err
@@ -31,11 +31,11 @@ func NewSDK(baseUrl, private string) (features.SinohopeWaaSAPI, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &sdkImpl{
-		CommonAPI:            commonAPI,
-		AccountAndAddressAPI: accountAndAddressAPI,
-		TransactionAPI:       transactionAPI,
-		AdvanceAPI:           advanceAPI,
-		MPCNodeAPI:           mpcNodeAPI,
+	return &APIClient{
+		Common:            commonAPI,
+		AccountAndAddress: accountAndAddressAPI,
+		Transaction:       transactionAPI,
+		Advance:           advanceAPI,
+		MPCNode:           mpcNodeAPI,
 	}, nil
 }

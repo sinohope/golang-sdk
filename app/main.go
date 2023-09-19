@@ -4,8 +4,6 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/sinohope/sinohope-golang-sdk/features"
-
 	"github.com/sinohope/sinohope-golang-sdk/core/sdk"
 	"github.com/sinohope/sinohope-golang-sdk/log"
 	"github.com/sirupsen/logrus"
@@ -15,7 +13,7 @@ import (
 
 var (
 	private = flag.String("private", common.FakePrivateKey, "Your private key.")
-	url     = flag.String("url", common.BaseUrl, "URL to mpc-proxy.")
+	url     = flag.String("url", common.BaseUrl, "Base url to Sinohope WaaS service.")
 )
 
 func main() {
@@ -58,7 +56,7 @@ func check() error {
 		return fmt.Errorf("private key can not be empty")
 	}
 	if *url == "" {
-		return fmt.Errorf("mpc-proxy url can not be empty")
+		return fmt.Errorf("base url can not be empty")
 	}
 	return nil
 }
@@ -67,7 +65,7 @@ func checkMPCNodeStatus() {
 	logrus.
 		WithField("private", private).
 		Infof("after generate ECDSA keypair")
-	m, err := sdk.NewSDK(common.BaseUrl, common.FakePrivateKey)
+	client, err := sdk.NewApiClient(common.BaseUrl, common.FakePrivateKey)
 	if err != nil {
 		logrus.Errorf("create mpc node sdk failed, %v", err)
 		return
@@ -80,14 +78,14 @@ func checkMPCNodeStatus() {
 		PageSize:           40,
 	}
 	var result *common.TransferHistoryWAASDTO
-	if result, err = m.(features.MPCNodeAPI).ListMPCRequests(request); err != nil {
+	if result, err = client.MPCNode.ListMPCRequests(request); err != nil {
 		logrus.Errorf("list mpc requests failed, %v", err)
 	} else {
 		// TODO: do something with result
 		fmt.Printf("-----------> [%v]", result.List)
 	}
 	var status *common.WaaSMpcNodeStatusDTOData
-	if status, err = m.(features.MPCNodeAPI).Status(); err != nil {
+	if status, err = client.MPCNode.Status(); err != nil {
 		logrus.Errorf("get mpc node status failed, %v", err)
 	} else {
 		logrus.Infof("get mpc node status success, %v", status)
