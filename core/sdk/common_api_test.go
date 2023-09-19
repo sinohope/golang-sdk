@@ -14,7 +14,7 @@ func TestCommonAPI(t *testing.T) {
 
 	c, err := NewCommonAPI(common.BaseUrl, common.FakePrivateKey)
 	if err != nil {
-		t.Fatalf("create new common api failed, %v", err)
+		t.Fatalf("create new commonAPI api failed, %v", err)
 	}
 
 	// GetSupportedChains

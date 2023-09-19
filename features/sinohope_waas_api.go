@@ -20,7 +20,7 @@ type CommonAPI interface {
 	GetVaults() ([]*common.WaaSVaultInfoData, error)
 }
 
-type MPCAPI interface {
+type AccountAndAddressAPI interface {
 	SinohopeWaaSAPI
 
 	// CreateWallets 创建钱包
@@ -58,6 +58,10 @@ type MPCAPI interface {
 	// TransferRiskControlSwitch 查询当前金库是否设置了风控开关
 	// POST: /v1/waas/mpc/wallet/transfer_risk_control_switch
 	TransferRiskControlSwitch(param *common.WaaSVaultIdDTO) (*common.WaaSTransferAddressSwitchDTOData, error)
+}
+
+type TransactionAPI interface {
+	SinohopeWaaSAPI
 
 	// CreateTransfer 发起转账交易
 	// POST: /v1/waas/mpc/transaction/create_transfer

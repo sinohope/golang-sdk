@@ -12,7 +12,7 @@ func TestMPCAPI(t *testing.T) {
 	l := log.Log{}
 	log.SetLogDetailsByConfig(a, l)
 
-	m, err := NewMPCAPI(common.BaseUrl, common.FakePrivateKey)
+	m, err := NewAccountAndAddressAPI(common.BaseUrl, common.FakePrivateKey)
 	if err != nil {
 		t.Fatalf("create new mpc api failed, %v", err)
 	}

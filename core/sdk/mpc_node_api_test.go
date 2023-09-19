@@ -1,9 +1,10 @@
 package sdk
 
 import (
+	"testing"
+
 	"github.com/sinohope/sinohope-golang-sdk/common"
 	"github.com/sinohope/sinohope-golang-sdk/log"
-	"testing"
 )
 
 func TestMPCNodeAPI(t *testing.T) {

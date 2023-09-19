@@ -24,9 +24,9 @@ func NewAdvanceAPI(baseUrl, private string) (features.AdvanceAPI, error) {
 }
 
 // SignRawData 原始数据签名
-// POST: /v1/waas/mpc/wallet/advance/sign_raw_data
+// POST: /v1/waas/mpc/wallet/advanceAPI/sign_raw_data
 func (a *advanceAPI) SignRawData(param *common.WaasSignRawDataParam) (*common.CreateSettlementTxResData, error) {
-	if response, err := a.gw.Post("/v1/waas/mpc/wallet/advance/sign_raw_data", param); err != nil {
+	if response, err := a.gw.Post("/v1/waas/mpc/wallet/advanceAPI/sign_raw_data", param); err != nil {
 		return nil, fmt.Errorf("send request failed, %v", err)
 	} else if response.Code != common.MPCProxyStatusOk {
 		return nil, fmt.Errorf("error response, code: %v msg: %v",
@@ -41,9 +41,9 @@ func (a *advanceAPI) SignRawData(param *common.WaasSignRawDataParam) (*common.Cr
 }
 
 // GenAddressByPath 根据指定的路径创建地址
-// POST: /v1/waas/mpc/wallet/advance/gen_address_by_path
+// POST: /v1/waas/mpc/wallet/advanceAPI/gen_address_by_path
 func (a *advanceAPI) GenAddressByPath(param *common.WaasAddressPathParam) (*common.WaaSAddressInfoData, error) {
-	if response, err := a.gw.Post("/v1/waas/mpc/wallet/advance/gen_address_by_path", param); err != nil {
+	if response, err := a.gw.Post("/v1/waas/mpc/wallet/advanceAPI/gen_address_by_path", param); err != nil {
 		return nil, fmt.Errorf("send request failed, %v", err)
 	} else if response.Code != common.MPCProxyStatusOk {
 		return nil, fmt.Errorf("error response, code: %v msg: %v",
@@ -58,9 +58,9 @@ func (a *advanceAPI) GenAddressByPath(param *common.WaasAddressPathParam) (*comm
 }
 
 // UpdateWallet 更新钱包属性（高级功能开启、关闭）
-// POST: /v1/waas/mpc/wallet/advance/update_wallet
+// POST: /v1/waas/mpc/wallet/advanceAPI/update_wallet
 func (a *advanceAPI) UpdateWallet(param *common.WaasUpdateWalletParam) (*common.CreateSettlementTxResData, error) {
-	if response, err := a.gw.Post("/v1/waas/mpc/wallet/advance/update_wallet", param); err != nil {
+	if response, err := a.gw.Post("/v1/waas/mpc/wallet/advanceAPI/update_wallet", param); err != nil {
 		return nil, fmt.Errorf("send request failed, %v", err)
 	} else if response.Code != common.MPCProxyStatusOk {
 		return nil, fmt.Errorf("error response, code: %v msg: %v",
