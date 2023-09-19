@@ -1,11 +1,10 @@
 package sdk
 
 import (
-	"github.com/sinohope/sinohope-golang-sdk/common"
-	"github.com/sinohope/sinohope-golang-sdk/core/http"
-	"github.com/sinohope/sinohope-golang-sdk/core/signer"
-	"github.com/sinohope/sinohope-golang-sdk/log"
 	"testing"
+
+	"github.com/sinohope/sinohope-golang-sdk/common"
+	"github.com/sinohope/sinohope-golang-sdk/log"
 )
 
 func TestCommonAPI(t *testing.T) {
@@ -13,17 +12,9 @@ func TestCommonAPI(t *testing.T) {
 	l := log.Log{}
 	log.SetLogDetailsByConfig(a, l)
 
-	s, err := signer.NewSigner(common.FakePrivateKey)
+	c, err := NewCommonAPI(common.BaseUrl, common.FakePrivateKey)
 	if err != nil {
-		t.Fatalf("create new signer failed, %v", err)
-	}
-	p, err := http.NewHTTP(common.BaseUrl, s)
-	if err != nil {
-		t.Fatalf("create new http failed, %v", err)
-	}
-	c, err := NewCommonAPI(p)
-	if err != nil {
-		t.Fatalf("create new common api failed, %v", err)
+		t.Fatalf("create new commonAPI api failed, %v", err)
 	}
 
 	// GetSupportedChains

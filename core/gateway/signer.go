@@ -1,13 +1,13 @@
-package signer
+package gateway
 
 import (
 	"crypto/ecdsa"
 	"crypto/x509"
 	"encoding/hex"
 	"fmt"
-	"github.com/sinohope/sinohope-golang-sdk/features"
-	"github.com/sirupsen/logrus"
 	"sort"
+
+	"github.com/sirupsen/logrus"
 )
 
 type signatureData struct {
@@ -18,21 +18,36 @@ type signatureData struct {
 	PublicKey string `json:"public_key,omitempty"`
 }
 
-type signer struct {
+type Signer struct {
 	private *ecdsa.PrivateKey
+
+	privateKeyStr string // x509 PKCS#8 private string
+	publicKeyStr  string // x509 ASN.1 der public string
 }
 
-func NewSigner(private string) (features.Signer, error) {
-	pk, err := loadPrivate(private)
+func NewSigner(private string) (*Signer, error) {
+	sk, err := loadPrivate(private)
 	if err != nil {
 		return nil, fmt.Errorf("load private key failed, %v", err)
 	}
-	return &signer{
-		private: pk,
+	privateKeyBytes, err := x509.MarshalPKCS8PrivateKey(sk)
+	if err != nil {
+		return nil, fmt.Errorf("marshal private key failed, %v", err)
+	}
+	derBytes, err := x509.MarshalPKIXPublicKey(&sk.PublicKey)
+	if err != nil {
+		return nil, fmt.Errorf("marshal public key failed, %v", err)
+	}
+	privateKeyStr := hex.EncodeToString(privateKeyBytes)
+	publicKeyStr := hex.EncodeToString(derBytes)
+	return &Signer{
+		private:       sk,
+		privateKeyStr: privateKeyStr,
+		publicKeyStr:  publicKeyStr,
 	}, nil
 }
 
-func (s *signer) Sign(path, timestamp, payload string) (string, error) {
+func (s *Signer) Sign(path, timestamp, payload string) (string, error) {
 	logrus.
 		WithField("path", path).
 		WithField("payload", payload).
@@ -57,20 +72,12 @@ func (s *signer) Sign(path, timestamp, payload string) (string, error) {
 	return signature, err
 }
 
-func (s *signer) PublicKey() string {
-	derBytes, err := x509.MarshalPKIXPublicKey(&s.private.PublicKey)
-	if err != nil {
-		return ""
-	}
-	return hex.EncodeToString(derBytes)
+func (s *Signer) PublicKey() string {
+	return s.publicKeyStr
 }
 
-func (s *signer) PrivateKey() string {
-	privateKeyBytes, err := x509.MarshalPKCS8PrivateKey(s.private)
-	if err != nil {
-		return ""
-	}
-	return hex.EncodeToString(privateKeyBytes)
+func (s *Signer) PrivateKey() string {
+	return s.privateKeyStr
 }
 
 func generateSignMetaDataAsString(appKey string, data map[string]string) string {

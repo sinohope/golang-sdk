@@ -1,4 +1,4 @@
-package http
+package gateway
 
 import (
 	"bytes"
@@ -6,25 +6,30 @@ import (
 	"fmt"
 	"io/ioutil"
 	http2 "net/http"
+	"time"
 
 	"github.com/sinohope/sinohope-golang-sdk/common"
 	"github.com/sinohope/sinohope-golang-sdk/features"
 	"github.com/sirupsen/logrus"
 )
 
-type httpImpl struct {
+type gateway struct {
 	baseUrl string
-	signer  features.Signer
+	s       *Signer
 }
 
-func NewHTTP(baseUrl string, signer features.Signer) (features.HTTP, error) {
-	return &httpImpl{
+func NewGateway(baseUrl, private string) (features.Gateway, error) {
+	s, err := NewSigner(private)
+	if err != nil {
+		return nil, fmt.Errorf("create new signer failed, %v", err)
+	}
+	return &gateway{
 		baseUrl: baseUrl,
-		signer:  signer,
+		s:       s,
 	}, nil
 }
 
-func (h *httpImpl) Post(path string, request interface{}) (*common.Response, error) {
+func (g *gateway) Post(path string, request interface{}) (*common.Response, error) {
 	payload, err := json.Marshal(request)
 	if err != nil {
 		return nil, fmt.Errorf("marshal payload failed, %v", err)
@@ -36,14 +41,14 @@ func (h *httpImpl) Post(path string, request interface{}) (*common.Response, err
 	t := timestamp()
 	header := make(map[string]string, 4)
 	header["Content-Type"] = "application/json"
-	header[common.BizApiKey] = h.signer.PublicKey()
+	header[common.BizApiKey] = g.s.PublicKey()
 	header[common.BizApiNone] = t
-	if signature, err := h.signer.Sign(path, t, string(payload)); err != nil {
+	if signature, err := g.s.Sign(path, t, string(payload)); err != nil {
 		return nil, fmt.Errorf("sign request failed, %v", err)
 	} else {
 		header[common.BizApiSignature] = signature
 	}
-	url := fmt.Sprintf("%s%s", h.baseUrl, path)
+	url := fmt.Sprintf("%s%s", g.baseUrl, path)
 	if result, err := doPost(url, header, request); err != nil {
 		return nil, fmt.Errorf("post request failed, %v", err)
 	} else {
@@ -80,4 +85,10 @@ func doPost(url string, headers map[string]string, body interface{}) ([]byte, er
 	}
 	defer res.Body.Close()
 	return ioutil.ReadAll(res.Body)
+}
+
+func timestamp() string {
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	now := time.Now().In(loc)
+	return fmt.Sprintf("%d", now.UnixNano()/int64(time.Millisecond))
 }

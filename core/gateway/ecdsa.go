@@ -1,4 +1,4 @@
-package signer
+package gateway
 
 import (
 	"crypto/ecdsa"

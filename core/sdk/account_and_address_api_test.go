@@ -1,11 +1,10 @@
 package sdk
 
 import (
-	"github.com/sinohope/sinohope-golang-sdk/common"
-	"github.com/sinohope/sinohope-golang-sdk/core/http"
-	"github.com/sinohope/sinohope-golang-sdk/core/signer"
-	"github.com/sinohope/sinohope-golang-sdk/log"
 	"testing"
+
+	"github.com/sinohope/sinohope-golang-sdk/common"
+	"github.com/sinohope/sinohope-golang-sdk/log"
 )
 
 func TestMPCAPI(t *testing.T) {
@@ -13,16 +12,7 @@ func TestMPCAPI(t *testing.T) {
 	l := log.Log{}
 	log.SetLogDetailsByConfig(a, l)
 
-	s, err := signer.NewSigner(common.FakePrivateKey)
-	if err != nil {
-		t.Fatalf("create new signer failed, %v", err)
-	}
-	p, err := http.NewHTTP(common.BaseUrl, s)
-	if err != nil {
-		t.Fatalf("create new http failed, %v", err)
-	}
-
-	m, err := NewMPCAPI(p)
+	m, err := NewAccountAndAddressAPI(common.BaseUrl, common.FakePrivateKey)
 	if err != nil {
 		t.Fatalf("create new mpc api failed, %v", err)
 	}

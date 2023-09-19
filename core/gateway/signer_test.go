@@ -1,4 +1,4 @@
-package signer
+package gateway
 
 import (
 	"encoding/json"
@@ -24,7 +24,7 @@ func TestSign(t *testing.T) {
 
 	s, err := NewSigner(common.FakePrivateKey)
 	if err != nil {
-		t.Fatalf("create new signer failed, %v", err)
+		t.Fatalf("create new Signer failed, %v", err)
 	}
 	request := common.WaasMpcNodeExecRecordParam{
 		BusinessExecType:   1,
@@ -47,11 +47,11 @@ func TestSign(t *testing.T) {
 func TestPublicKey(t *testing.T) {
 	s, err := NewSigner(common.FakePrivateKey)
 	if err != nil {
-		t.Fatalf("create new signer failed, %v", err)
+		t.Fatalf("create new Signer failed, %v", err)
 	}
 	if public := s.PublicKey(); public == "" {
-		t.Fatalf("signer public key is empty")
+		t.Fatalf("Signer public key is empty")
 	} else {
-		t.Logf("signer public key: %s", public)
+		t.Logf("Signer public key: %s", public)
 	}
 }
