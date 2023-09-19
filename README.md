@@ -9,30 +9,6 @@
 - 统一封装接口请求签名处理；
 - 封装API接口，方便开发者以方法调用的方式完成对WaaS API的请求。
 
-### 代码架构
-
-代码结构及主要内容说明：
-
-+ app： 示例内容
-+ core
-  + signer
-    + signer.go: 根据sinohope网关的规则生成POST请求签名；
-  + http
-    + http.go: 调用signer生成请求签名，然后构建POST请求；
-  + sdk
-    + sdk.go: 对所有API调用实现的一个统一封装；
-    + common_api.go: 通用API的实现；
-    + account_and_address_api.go: 帐户&地址API的实现；
-    + transaction_api.go: 交易及签名API的实现；
-    + advance_api.go: 高级功能API的实现；
-    + mpc_node_api.go: 查询MPC Node节点记录与状态的API的实现；
-+ features：接口抽象
-  + http: 负责向sinohope发起请求和解析返回结果，依赖signer；
-  + sinohope_waas_api: 按模块划分定义了当前支持的所有接口；
-  + signer: http模块发起请求前会调用signer，根据sinohope网关签名规则生成请求签名；
-+ common：全局数据结构定义
-+ log：日志模块
-
 ### 生成API请求密钥对
 
 在使用之前，需要您自行生成用于代表您的身份访问Sinohope WaaS API的 ECDSA 密钥对，然后将公钥（即 API Key）通过Sinohope Web console进行配置，与您的组织绑定。
@@ -82,4 +58,28 @@ func generateECDSAPrivateKey() (string, string, error) {
 		// handle result
 	}
 ```
+
+### 代码架构简介
+
+代码结构及主要内容说明：
+
++ app： 示例内容
++ core
+  + signer
+    + signer.go: 根据sinohope网关的规则生成POST请求签名；
+  + http
+    + http.go: 调用signer生成请求签名，然后构建POST请求；
+  + sdk
+    + sdk.go: 对所有API调用实现的一个统一封装；
+    + common_api.go: 通用API的实现；
+    + account_and_address_api.go: 帐户&地址API的实现；
+    + transaction_api.go: 交易及签名API的实现；
+    + advance_api.go: 高级功能API的实现；
+    + mpc_node_api.go: 查询MPC Node节点记录与状态的API的实现；
++ features：接口抽象
+  + http: 负责向sinohope发起请求和解析返回结果，依赖signer；
+  + sinohope_waas_api: 按模块划分定义了当前支持的所有接口；
+  + signer: http模块发起请求前会调用signer，根据sinohope网关签名规则生成请求签名；
++ common：全局数据结构定义
++ log：日志模块
 
