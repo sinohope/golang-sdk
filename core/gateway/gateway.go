@@ -30,9 +30,13 @@ func NewGateway(baseUrl, private string) (features.Gateway, error) {
 }
 
 func (g *gateway) Post(path string, request interface{}) (*common.Response, error) {
-	payload, err := json.Marshal(request)
-	if err != nil {
-		return nil, fmt.Errorf("marshal payload failed, %v", err)
+	var err error
+	var payload []byte
+	if request != nil {
+		payload, err = json.Marshal(request)
+		if err != nil {
+			return nil, fmt.Errorf("marshal payload failed, %v", err)
+		}
 	}
 	logrus.
 		WithField("path", path).
@@ -67,9 +71,13 @@ func (g *gateway) Post(path string, request interface{}) (*common.Response, erro
 }
 
 func doPost(url string, headers map[string]string, body interface{}) ([]byte, error) {
-	payloadBytes, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
+	var err error
+	var payloadBytes []byte
+	if body != nil {
+		payloadBytes, err = json.Marshal(body)
+		if err != nil {
+			return nil, err
+		}
 	}
 	client := &http2.Client{}
 	req, err := http2.NewRequest("POST", url, bytes.NewReader(payloadBytes))
