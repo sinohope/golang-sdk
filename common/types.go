@@ -267,6 +267,7 @@ type WaaSListAddressesParam struct {
 
 type WaaSGenerateChainAddressParam struct {
 	RequestId   string `json:"requestId,omitempty"`   // 请求ID
+	VaultId     string `json:"vaultId"`               // the vault id
 	WalletId    string `json:"walletId,omitempty"`    // 钱包id
 	Count       int    `json:"count,omitempty"`       // 创建多少个,不传默认为1
 	ChainSymbol string `json:"chainSymbol,omitempty"` // 链名称 简称 链标识 具有唯一性
