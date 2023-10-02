@@ -25,14 +25,14 @@ func NewAccountAndAddressAPI(baseUrl, private string) (features.AccountAndAddres
 
 // CreateWallets 创建钱包
 // POST: /v1/waas/mpc/create_wallets
-func (m *accountAndAddressAPI) CreateWallets(param *commonData.WaaSCreateBatchWalletParam) ([]*commonData.WaasWalletInfoData, error) {
+func (m *accountAndAddressAPI) CreateWallets(param *commonData.WaaSCreateBatchWalletParam) ([]*commonData.WaaSWalletInfoData, error) {
 	if response, err := m.gw.Post("/v1/waas/mpc/create_wallets", param); err != nil {
 		return nil, fmt.Errorf("send request failed, %v", err)
 	} else if response.Code != commonData.MPCProxyStatusOk {
 		return nil, fmt.Errorf("error response, code: %v msg: %v",
 			response.Code, response.Message)
 	} else {
-		var result []*commonData.WaasWalletInfoData
+		var result []*commonData.WaaSWalletInfoData
 		if err := json.Unmarshal(response.Data, &result); err != nil {
 			return nil, fmt.Errorf("unmarshal response failed, %v", err)
 		}
@@ -42,35 +42,31 @@ func (m *accountAndAddressAPI) CreateWallets(param *commonData.WaaSCreateBatchWa
 
 // ListAddress 查询链地址
 // POST: /v1/waas/mpc/wallet/list_addresses
-func (m *accountAndAddressAPI) ListAddress(param *commonData.WaaSListAddressesParam) ([]*commonData.WaaSAddressInfoData, error) {
+func (m *accountAndAddressAPI) ListAddress(param *commonData.WaaSListAddressesParam) (*commonData.WaaSListAddressesResult, error) {
 	if response, err := m.gw.Post("/v1/waas/mpc/wallet/list_addresses", param); err != nil {
 		return nil, fmt.Errorf("send request failed, %v", err)
 	} else if response.Code != commonData.MPCProxyStatusOk {
 		return nil, fmt.Errorf("error response, code: %v msg: %v",
 			response.Code, response.Message)
 	} else {
-		var result *commonData.PageData
+		var result *commonData.WaaSListAddressesResult
 		if err := json.Unmarshal(response.Data, &result); err != nil {
 			return nil, fmt.Errorf("unmarshal response failed, %v", err)
 		}
-		var addressInfo []*commonData.WaaSAddressInfoData
-		if err := json.Unmarshal(result.List, &addressInfo); err != nil {
-			return nil, fmt.Errorf("unmarshal response failed, %v", err)
-		}
-		return addressInfo, nil
+		return result, nil
 	}
 }
 
 // GenerateChainAddresses 生成链地址
 // POST: /v1/waas/mpc/wallet/generate_chain_addresses
-func (m *accountAndAddressAPI) GenerateChainAddresses(param *commonData.WaaSGenerateChainAddressParam) ([]*commonData.WaaSAddressData, error) {
+func (m *accountAndAddressAPI) GenerateChainAddresses(param *commonData.WaaSGenerateChainAddressParam) ([]*commonData.WaaSAddressInfoData, error) {
 	if response, err := m.gw.Post("/v1/waas/mpc/wallet/generate_chain_addresses", param); err != nil {
 		return nil, fmt.Errorf("send request failed, %v", err)
 	} else if response.Code != commonData.MPCProxyStatusOk {
 		return nil, fmt.Errorf("error response, code: %v msg: %v",
 			response.Code, response.Message)
 	} else {
-		var result []*commonData.WaaSAddressData
+		var result []*commonData.WaaSAddressInfoData
 		if err := json.Unmarshal(response.Data, &result); err != nil {
 			return nil, fmt.Errorf("unmarshal response failed, %v", err)
 		}
@@ -80,14 +76,14 @@ func (m *accountAndAddressAPI) GenerateChainAddresses(param *commonData.WaaSGene
 
 // ListWallets 查询钱包列表
 // POST: /v1/waas/mpc/wallet/list_wallets
-func (m *accountAndAddressAPI) ListWallets(param *commonData.WaaSListWalletsParam) (*commonData.TransferHistoryWAASDTO, error) {
+func (m *accountAndAddressAPI) ListWallets(param *commonData.WaaSListWalletsParam) (*commonData.WaaSListWalletsResult, error) {
 	if response, err := m.gw.Post("/v1/waas/mpc/wallet/list_wallets", param); err != nil {
 		return nil, fmt.Errorf("send request failed, %v", err)
 	} else if response.Code != commonData.MPCProxyStatusOk {
 		return nil, fmt.Errorf("error response, code: %v msg: %v",
 			response.Code, response.Message)
 	} else {
-		var result *commonData.TransferHistoryWAASDTO
+		var result *commonData.WaaSListWalletsResult
 		if err := json.Unmarshal(response.Data, &result); err != nil {
 			return nil, fmt.Errorf("unmarshal response failed, %v", err)
 		}
@@ -148,14 +144,14 @@ func (m *accountAndAddressAPI) IsValidAddress(param *commonData.WaaSAddressCheck
 
 // TransferAddressBook 当前金库设置开关以后,支持转账的地址簿
 // POST: /v1/waas/mpc/wallet/transfer_address_book
-func (m *accountAndAddressAPI) TransferAddressBook(param *commonData.WaaSTransferAddressBookParam) (*commonData.TransferHistoryWAASDTO, error) {
+func (m *accountAndAddressAPI) TransferAddressBook(param *commonData.WaaSTransferAddressBookParam) (*commonData.WaaSAddressBookResult, error) {
 	if response, err := m.gw.Post("/v1/waas/mpc/wallet/transfer_address_book", param); err != nil {
 		return nil, fmt.Errorf("send request failed, %v", err)
 	} else if response.Code != commonData.MPCProxyStatusOk {
 		return nil, fmt.Errorf("error response, code: %v msg: %v",
 			response.Code, response.Message)
 	} else {
-		var result *commonData.TransferHistoryWAASDTO
+		var result *commonData.WaaSAddressBookResult
 		if err := json.Unmarshal(response.Data, &result); err != nil {
 			return nil, fmt.Errorf("unmarshal response failed, %v", err)
 		}

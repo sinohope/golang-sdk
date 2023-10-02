@@ -162,14 +162,14 @@ func (t *transactionAPI) TransactionsByTxHash(param *commonData.WalletTransactio
 
 // SignMessage 按已知的规范签名消息（EIP-191、 EIP-712）
 // POST: /v1/waas/mpc/web3/sign_message
-func (t *transactionAPI) SignMessage(param *commonData.SignMessageParam) (*commonData.WaaSSignatureData, error) {
+func (t *transactionAPI) SignMessage(param *commonData.SignMessageParam) (*commonData.WaaSMessageHashResult, error) {
 	if response, err := t.gw.Post("/v1/waas/mpc/web3/sign_message", param); err != nil {
 		return nil, fmt.Errorf("send request failed, %v", err)
 	} else if response.Code != commonData.MPCProxyStatusOk {
 		return nil, fmt.Errorf("error response, code: %v msg: %v",
 			response.Code, response.Message)
 	} else {
-		var result *commonData.WaaSSignatureData
+		var result *commonData.WaaSMessageHashResult
 		if err := json.Unmarshal(response.Data, &result); err != nil {
 			return nil, fmt.Errorf("unmarshal response failed, %v", err)
 		}

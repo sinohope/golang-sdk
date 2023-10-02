@@ -31,7 +31,6 @@ func TestCommonAPI(t *testing.T) {
 	var supportCoins []*common.WaaSCoinDTOData
 	for _, v := range supportList {
 		param := &common.WaasChainParam{
-			ChainName:   v.ChainName,
 			ChainSymbol: v.ChainSymbol,
 		}
 		if supportCoins, err = c.GetSupportedCoins(param); err != nil {
