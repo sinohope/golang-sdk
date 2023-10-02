@@ -77,7 +77,7 @@ func checkMPCNodeStatus() {
 		PageIndex:          0,
 		PageSize:           40,
 	}
-	var result *common.TransferHistoryWAASDTO
+	var result *common.WaaSMPCNodeRequestRes
 	if result, err = client.MPCNode.ListMPCRequests(request); err != nil {
 		logrus.Errorf("list mpc requests failed, %v", err)
 	} else {

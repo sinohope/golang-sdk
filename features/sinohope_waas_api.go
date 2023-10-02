@@ -25,19 +25,19 @@ type AccountAndAddressAPI interface {
 
 	// CreateWallets 创建钱包
 	// POST: /v1/waas/mpc/create_wallets
-	CreateWallets(param *common.WaaSCreateBatchWalletParam) ([]*common.WaasWalletInfoData, error)
+	CreateWallets(param *common.WaaSCreateBatchWalletParam) ([]*common.WaaSWalletInfoData, error)
 
 	// ListAddress 查询链地址
 	// POST: /v1/waas/mpc/wallet/list_addresses
-	ListAddress(param *common.WaaSListAddressesParam) ([]*common.WaaSAddressInfoData, error)
+	ListAddress(param *common.WaaSListAddressesParam) (*common.WaaSListAddressesResult, error)
 
 	// GenerateChainAddresses 生成链地址
 	// POST: /v1/waas/mpc/wallet/generate_chain_addresses
-	GenerateChainAddresses(param *common.WaaSGenerateChainAddressParam) ([]*common.WaaSAddressData, error)
+	GenerateChainAddresses(param *common.WaaSGenerateChainAddressParam) ([]*common.WaaSAddressInfoData, error)
 
 	// ListWallets 查询钱包列表
 	// POST: /v1/waas/mpc/wallet/list_wallets
-	ListWallets(param *common.WaaSListWalletsParam) (*common.TransferHistoryWAASDTO, error)
+	ListWallets(param *common.WaaSListWalletsParam) (*common.WaaSListWalletsResult, error)
 
 	// ListAddedChains 查询指定钱包下已添加地址的链及其首个地址信息
 	// POST: /v1/waas/mpc/wallet/list_added_chains
@@ -53,7 +53,7 @@ type AccountAndAddressAPI interface {
 
 	// TransferAddressBook 当前金库设置开关以后,支持转账的地址簿
 	// POST: /v1/waas/mpc/wallet/transfer_address_book
-	TransferAddressBook(param *common.WaaSTransferAddressBookParam) (*common.TransferHistoryWAASDTO, error)
+	TransferAddressBook(param *common.WaaSTransferAddressBookParam) (*common.WaaSAddressBookResult, error)
 
 	// TransferRiskControlSwitch 查询当前金库是否设置了风控开关
 	// POST: /v1/waas/mpc/wallet/transfer_risk_control_switch
@@ -97,7 +97,7 @@ type TransactionAPI interface {
 
 	// SignMessage 按已知的规范签名消息（EIP-191、 EIP-712）
 	// POST: /v1/waas/mpc/web3/sign_message
-	SignMessage(param *common.SignMessageParam) (*common.WaaSSignatureData, error)
+	SignMessage(param *common.SignMessageParam) (*common.WaaSMessageHashResult, error)
 }
 
 type AdvanceAPI interface {
@@ -105,15 +105,15 @@ type AdvanceAPI interface {
 
 	// SignRawData 原始数据签名
 	// POST: /v1/waas/mpc/wallet/advance/sign_raw_data
-	SignRawData(param *common.WaasSignRawDataParam) (*common.CreateSettlementTxResData, error)
+	SignRawData(param *common.WaaSSignRawDataParam) (*common.WaaSSignRawDataRes, error)
 
 	// GenAddressByPath 根据指定的路径创建地址
 	// POST: /v1/waas/mpc/wallet/advance/gen_address_by_path
-	GenAddressByPath(param *common.WaasAddressPathParam) (*common.WaaSAddressInfoData, error)
+	GenAddressByPath(param *common.WaaSAddressPathParam) (*common.WaaSAddressInfoData, error)
 
 	// UpdateWallet 更新钱包属性（高级功能开启、关闭）
 	// POST: /v1/waas/mpc/wallet/advance/update_wallet
-	UpdateWallet(param *common.WaasUpdateWalletParam) (*common.CreateSettlementTxResData, error)
+	UpdateWallet(param *common.WaaSUpdateWalletParam) (*common.WaaSUpdateWalletRes, error)
 }
 
 type MPCNodeAPI interface {
@@ -121,7 +121,7 @@ type MPCNodeAPI interface {
 
 	// ListMPCRequests 查询mpc协议执行记录
 	// POST: /v1/waas/mpc/mpcnode/list_mpc_requests
-	ListMPCRequests(param *common.WaasMpcNodeExecRecordParam) (*common.TransferHistoryWAASDTO, error)
+	ListMPCRequests(param *common.WaasMpcNodeExecRecordParam) (*common.WaaSMPCNodeRequestRes, error)
 
 	// Status 查询MPC node状态
 	// POST: /v1/waas/mpc/mpcnode/status

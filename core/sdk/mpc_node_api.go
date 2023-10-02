@@ -25,14 +25,14 @@ func NewMPCNodeAPI(baseUrl, private string) (features.MPCNodeAPI, error) {
 
 // ListMPCRequests 查询mpc协议执行记录
 // POST: /v1/waas/mpc/mpcnode/list_mpc_requests
-func (m *mpcNode) ListMPCRequests(param *common.WaasMpcNodeExecRecordParam) (*common.TransferHistoryWAASDTO, error) {
+func (m *mpcNode) ListMPCRequests(param *common.WaasMpcNodeExecRecordParam) (*common.WaaSMPCNodeRequestRes, error) {
 	if response, err := m.gw.Post("/v1/waas/mpc/mpcnode/list_mpc_requests", param); err != nil {
 		return nil, fmt.Errorf("send request failed, %v", err)
 	} else if response.Code != common.MPCProxyStatusOk {
 		return nil, fmt.Errorf("error response, code: %v msg: %v",
 			response.Code, response.Message)
 	} else {
-		var result *common.TransferHistoryWAASDTO
+		var result *common.WaaSMPCNodeRequestRes
 		if err := json.Unmarshal(response.Data, &result); err != nil {
 			return nil, fmt.Errorf("unmarshal response failed, %v", err)
 		}

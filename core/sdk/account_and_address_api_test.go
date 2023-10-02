@@ -17,7 +17,7 @@ func TestMPCAPI(t *testing.T) {
 		t.Fatalf("create new mpc api failed, %v", err)
 	}
 
-	var walletInfo []*common.WaasWalletInfoData
+	var walletInfo []*common.WaaSWalletInfoData
 	if walletInfo, err = m.CreateWallets(&common.WaaSCreateBatchWalletParam{
 		VaultId:   "456517693645317",
 		RequestId: "fake-request-id",
