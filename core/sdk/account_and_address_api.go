@@ -128,7 +128,7 @@ func (m *accountAndAddressAPI) GetAddressBalance(param *commonData.WaaSGetAddres
 // IsValidAddress 检查币种地址是否正确
 // POST: /v1/waas/mpc/is_valid_address
 func (m *accountAndAddressAPI) IsValidAddress(param *commonData.WaaSAddressCheckParam) (*commonData.WaaSAddressCheckDTOData, error) {
-	if response, err := m.gw.Post("/v1/waas/mpc/wallet/is_valid_address", param); err != nil {
+	if response, err := m.gw.Post("/v1/waas/mpc/is_valid_address", param); err != nil {
 		return nil, fmt.Errorf("send request failed, %v", err)
 	} else if response.Code != commonData.MPCProxyStatusOk {
 		return nil, fmt.Errorf("error response, code: %v msg: %v",
