@@ -88,7 +88,7 @@ type WaaSTransferAddressSwitchDTOData struct {
 }
 
 type CreateSettlementTxResData struct {
-	SinoId         int64  `json:"sinoId,omitempty"`
+	SinoId         string `json:"sinoId,omitempty"`
 	RequestId      string `json:"requestId,omitempty"`
 	ReplacedSinoId string `json:"replacedSinoId,omitempty"`
 	ChainSymbol    string `json:"chainSymbol,omitempty"`
