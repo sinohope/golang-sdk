@@ -96,7 +96,7 @@ type TransactionAPI interface {
 	TransactionsByTxHash(param *common.WalletTransactionQueryWAASTxHashdParam) (*common.TransferHistoryWAASDTO, error)
 
 	// Fee 估算交易所需费用
-	// /v1/waas/mpc/transaction/fee
+	// POST: /v1/waas/mpc/transaction/fee
 	Fee(param *common.WalletTransactionWAASParam) (*common.WalletTransactionWAASResponse, error)
 
 	// SignMessage 按已知的规范签名消息（EIP-191、 EIP-712）

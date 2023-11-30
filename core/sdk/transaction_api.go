@@ -162,7 +162,7 @@ func (t *transactionAPI) TransactionsByTxHash(param *commonData.WalletTransactio
 }
 
 // Fee 估算交易所需费用
-// /v1/waas/mpc/transaction/fee
+// POST: /v1/waas/mpc/transaction/fee
 func (t *transactionAPI) Fee(param *common.WalletTransactionWAASParam) (*common.WalletTransactionWAASResponse, error) {
 	if response, err := t.gw.Post("/v1/waas/mpc/transaction/fee", param); err != nil {
 		return nil, fmt.Errorf("send request failed, %v", err)
