@@ -307,6 +307,26 @@ type WaaSVaultIdDTO struct {
 	VaultId string `json:"vaultId,omitempty"` // 金库id
 }
 
+type WalletTransactionWAASParam struct {
+	OperationType string `json:"operationType,omitempty"` // 操作类型 1:转账 2:合约调用 3:合约部署
+	From          string `json:"from,omitempty"`
+	To            string `json:"to,omitempty"`
+	AssetId       string `json:"assetId,omitempty"`
+	ChainSymbol   string `json:"chainSymbol,omitempty"`
+	Amount        string `json:"amount,omitempty"`
+	InputData     string `json:"inputData,omitempty"`
+}
+
+type WalletTransactionWAASResponse struct {
+	TransactionFee struct {
+		SlowFee    string `json:"slowFee,omitempty"`    // 低档交易费
+		AverageFee string `json:"averageFee,omitempty"` // 中档交易费
+		FastFee    string `json:"fastFee,omitempty"`    // 高档交易费
+		FeePerByte string `json:"feePerByte,omitempty"` // 每个字节的费用 btc like链会返回
+	} `json:"transactionFee,omitempty"`
+	GasFee string `json:"gasFee,omitempty"` // 对于ETH及EVM兼容链，预估费用详情
+}
+
 type WalletTransactionSendWAASParam struct {
 	WalletId    string `json:"walletId,omitempty"`    // 钱包id
 	RequestId   string `json:"requestId,omitempty"`   // 请求方交易的requestId
