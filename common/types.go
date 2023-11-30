@@ -307,24 +307,38 @@ type WaaSVaultIdDTO struct {
 	VaultId string `json:"vaultId,omitempty"` // 金库id
 }
 
-type WalletTransactionWAASParam struct {
-	OperationType string `json:"operationType,omitempty"` // 操作类型 1:转账 2:合约调用 3:合约部署
-	From          string `json:"from,omitempty"`
-	To            string `json:"to,omitempty"`
-	AssetId       string `json:"assetId,omitempty"`
-	ChainSymbol   string `json:"chainSymbol,omitempty"`
-	Amount        string `json:"amount,omitempty"`
-	InputData     string `json:"inputData,omitempty"`
+type WalletTransactionFeeWAASParam struct {
+	OperationType string `json:"operationType,omitempty"` // 交易类型 必填 TRANSFER ：转账 CONTRACT_CALL ：web3合约调用
+	From          string `json:"from,omitempty"`          // from地址
+	To            string `json:"to,omitempty"`            // to地址 必填 如果是合约调用，则填写合约地址
+	AssetId       string `json:"assetId,omitempty"`       // 资产id，如果交易类型为TRANSFER必填。
+	ChainSymbol   string `json:"chainSymbol,omitempty"`   // 链标识
+	Amount        string `json:"amount,omitempty"`        // 转账金额 如果所属链为btc like，则amount必传。
+	InputData     string `json:"inputData,omitempty"`     // 如果交易类型为CONTRACT_CALL合约调用时，inputData必填
 }
 
-type WalletTransactionWAASResponse struct {
+type WalletTransactionFeeWAASResponse struct {
 	TransactionFee struct {
 		SlowFee    string `json:"slowFee,omitempty"`    // 低档交易费
 		AverageFee string `json:"averageFee,omitempty"` // 中档交易费
 		FastFee    string `json:"fastFee,omitempty"`    // 高档交易费
 		FeePerByte string `json:"feePerByte,omitempty"` // 每个字节的费用 btc like链会返回
 	} `json:"transactionFee,omitempty"`
-	GasFee string `json:"gasFee,omitempty"` // 对于ETH及EVM兼容链，预估费用详情
+	GasFee struct {
+		Slow struct {
+			GasPrice string `json:"gasPrice"`
+			GasLimit string `json:"gasLimit"`
+		} `json:"slow"`
+		Average struct {
+			GasPrice string `json:"gasPrice"`
+			GasLimit string `json:"gasLimit"`
+		} `json:"average"`
+		Fast struct {
+			GasPrice string `json:"gasPrice"`
+			GasLimit string `json:"gasLimit"`
+		} `json:"fast"`
+	} `json:"gasFee,omitempty"` // 对于ETH及EVM兼容链，预估费用详情
+
 }
 
 type WalletTransactionSendWAASParam struct {

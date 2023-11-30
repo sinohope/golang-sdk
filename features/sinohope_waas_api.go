@@ -97,7 +97,7 @@ type TransactionAPI interface {
 
 	// Fee 估算交易所需费用
 	// POST: /v1/waas/mpc/transaction/fee
-	Fee(param *common.WalletTransactionWAASParam) (*common.WalletTransactionWAASResponse, error)
+	Fee(param *common.WalletTransactionFeeWAASParam) (*common.WalletTransactionFeeWAASResponse, error)
 
 	// SignMessage 按已知的规范签名消息（EIP-191、 EIP-712）
 	// POST: /v1/waas/mpc/web3/sign_message

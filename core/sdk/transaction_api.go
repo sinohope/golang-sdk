@@ -163,14 +163,14 @@ func (t *transactionAPI) TransactionsByTxHash(param *commonData.WalletTransactio
 
 // Fee 估算交易所需费用
 // POST: /v1/waas/mpc/transaction/fee
-func (t *transactionAPI) Fee(param *common.WalletTransactionWAASParam) (*common.WalletTransactionWAASResponse, error) {
+func (t *transactionAPI) Fee(param *common.WalletTransactionFeeWAASParam) (*common.WalletTransactionFeeWAASResponse, error) {
 	if response, err := t.gw.Post("/v1/waas/mpc/transaction/fee", param); err != nil {
 		return nil, fmt.Errorf("send request failed, %v", err)
 	} else if response.Code != commonData.MPCProxyStatusOk {
 		return nil, fmt.Errorf("error response, code: %v msg: %v",
 			response.Code, response.Message)
 	} else {
-		var result *commonData.WalletTransactionWAASResponse
+		var result *commonData.WalletTransactionFeeWAASResponse
 		if err := json.Unmarshal(response.Data, &result); err != nil {
 			return nil, fmt.Errorf("unmarshal response failed, %v", err)
 		}
