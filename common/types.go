@@ -468,7 +468,7 @@ type WaaSMPCNodeRequestRes struct {
 type MPCNodeExecRecord struct {
 	RequestID          string `json:"requestId,omitempty"`          //用户发起业务自己生成的唯一请求id
 	SinoID             string `json:"sinoId,omitempty"`             // sinohope 根据当前业务生成的唯一id
-	RequestTime        int64  `json:"requestTime,omitempty"`        //请求时间
+	RequestTime        string `json:"requestTime,omitempty"`        // 请求时间 格式 "2022-02-02 00:00:00"
 	Param              string `json:"param,omitempty"`              // 发给 MPC Node的参数
 	BusinessExecType   int    `json:"businessExecType,omitempty"`   // 业务执行类型（KeyGen 类型请求：1，signTx 类型请求：2，signMessage 类型请求：3，signRawData 类型请求：4）
 	BusinessExecStatus int    `json:"businessExecStatus,omitempty"` // 业务执行状态 (进行中：0，成功：1，失败：2）
