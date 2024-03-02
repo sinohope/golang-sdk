@@ -213,7 +213,7 @@ type WaaSMessageHashResult struct {
 // Request params
 
 type WaasChainParam struct {
-	ChainSymbol string `json:"chainSymbol,omitempty"` // 链名称 简称 链标识 具有唯一性
+	ChainSymbol string `json:"chainSymbol"` // 链名称 简称 链标识 具有唯一性
 }
 
 type WaaSCoinDTOParam struct {
@@ -236,22 +236,22 @@ type VaultInfoOfOpenApi struct {
 
 type WaaSCreateBatchWalletParam struct {
 	Count       int                    `json:"count,omitempty"` // 创建多少个 默认值为 1
-	VaultId     string                 `json:"vaultId,omitempty"`
+	VaultId     string                 `json:"vaultId"`
 	WalletInfos []WaaSCreateWalletInfo `json:"walletInfos,omitempty"` // 钱包信息 如果不为空 count值必须 walletInfos的数量一致
-	RequestId   string                 `json:"requestId,omitempty"`
+	RequestId   string                 `json:"requestId"`
 }
 
 type WaaSCreateWalletInfo struct {
-	WalletName      string `json:"walletName,omitempty"`      // 钱包名称 为空的话用默认值: wallet+随机值 不为空时：部门下钱包名称不能给重复
-	AdvancedEnabled int    `json:"advancedEnabled,omitempty"` // 高级功能开关 (关：0，开：1) 开了以后支持的功能: 根据指定的路径创建地址 ,原始数据签名
+	WalletName      string `json:"walletName,omitempty"` // 钱包名称 为空的话用默认值: wallet+随机值 不为空时：部门下钱包名称不能给重复
+	AdvancedEnabled int    `json:"advancedEnabled"`      // 高级功能开关 (关：0，开：1) 开了以后支持的功能: 根据指定的路径创建地址 ,原始数据签名
 }
 
 type WaaSListAddressesParam struct {
-	VaultId     string `json:"vaultId"`               // the vault id
-	WalletId    string `json:"walletId,omitempty"`    // 钱包id
-	ChainSymbol string `json:"chainSymbol,omitempty"` // 链名称 简称 链标识
-	PageIndex   int    `json:"pageIndex,omitempty"`   // 当前页码，首页为0,默认0
-	PageSize    int    `json:"pageSize,omitempty"`    // 每页数据条数（不得小于1,不得大于50）
+	VaultId     string `json:"vaultId"`             // the vault id
+	WalletId    string `json:"walletId"`            // 钱包id
+	ChainSymbol string `json:"chainSymbol"`         // 链名称 简称 链标识
+	PageIndex   int    `json:"pageIndex,omitempty"` // 当前页码，首页为0,默认0
+	PageSize    int    `json:"pageSize,omitempty"`  // 每页数据条数（不得小于1,不得大于50）
 }
 
 type WaaSListAddressesResult struct {
@@ -260,15 +260,15 @@ type WaaSListAddressesResult struct {
 }
 
 type WaaSGenerateChainAddressParam struct {
-	RequestId   string `json:"requestId,omitempty"`   // 请求ID
-	VaultId     string `json:"vaultId"`               // the vault id
-	WalletId    string `json:"walletId,omitempty"`    // 钱包id
-	Count       int    `json:"count,omitempty"`       // 创建多少个,不传默认为1
-	ChainSymbol string `json:"chainSymbol,omitempty"` // 链名称 简称 链标识 具有唯一性
+	RequestId   string `json:"requestId"`       // 请求ID
+	VaultId     string `json:"vaultId"`         // the vault id
+	WalletId    string `json:"walletId"`        // 钱包id
+	Count       int    `json:"count,omitempty"` // 创建多少个,不传默认为1
+	ChainSymbol string `json:"chainSymbol"`     // 链名称 简称 链标识 具有唯一性
 }
 
 type WaaSListWalletsParam struct {
-	VaultId   string `json:"vaultId,omitempty"`   // 金库ID
+	VaultId   string `json:"vaultId"`             // 金库ID
 	PageIndex int    `json:"pageIndex,omitempty"` // 当前页码，首页为0,默认0
 	PageSize  int    `json:"pageSize,omitempty"`  // 每页数据条数（不得小于1,不得大于50）
 }
@@ -279,20 +279,20 @@ type WaaSListAddedChainsParam struct {
 }
 
 type WaaSGetAddressBalanceParam struct {
-	AssetId string `json:"assetId,omitempty"` // 币名称 简称 币标识 具有唯一性
-	Address string `json:"address,omitempty"` // 地址
+	AssetId string `json:"assetId"` // 币名称 简称 币标识 具有唯一性
+	Address string `json:"address"` // 地址
 }
 
 type WaaSAddressCheckParam struct {
-	AssetId string `json:"assetId,omitempty"` // 币种代号 币标识 具有唯一性
-	Address string `json:"address,omitempty"` // 地址
+	AssetId string `json:"assetId"` // 币种代号 币标识 具有唯一性
+	Address string `json:"address"` // 地址
 }
 
 type WaaSTransferAddressBookParam struct {
-	VaultId     string `json:"vaultId,omitempty"`     // 金库ID
-	ChainSymbol string `json:"chainSymbol,omitempty"` // 链名称 简称 链标识 具有唯一性
-	PageIndex   int    `json:"pageIndex,omitempty"`   // 当前页码，首页为0,默认0
-	PageSize    int    `json:"pageSize,omitempty"`    // 每页数据条数（不得小于1,不得大于50）
+	VaultId     string `json:"vaultId"`             // 金库ID
+	ChainSymbol string `json:"chainSymbol"`         // 链名称 简称 链标识 具有唯一性
+	PageIndex   int    `json:"pageIndex,omitempty"` // 当前页码，首页为0,默认0
+	PageSize    int    `json:"pageSize,omitempty"`  // 每页数据条数（不得小于1,不得大于50）
 }
 
 type WaaSAddressBookResult struct {
@@ -304,17 +304,17 @@ type WhiteAddress struct {
 }
 
 type WaaSVaultIdDTO struct {
-	VaultId string `json:"vaultId,omitempty"` // 金库id
+	VaultId string `json:"vaultId"` // 金库id
 }
 
 type WalletTransactionFeeWAASParam struct {
-	OperationType string `json:"operationType,omitempty"` // 交易类型 必填 TRANSFER ：转账 CONTRACT_CALL ：web3合约调用
-	From          string `json:"from,omitempty"`          // from地址
-	To            string `json:"to,omitempty"`            // to地址 必填 如果是合约调用，则填写合约地址
-	AssetId       string `json:"assetId,omitempty"`       // 资产id，如果交易类型为TRANSFER必填。
-	ChainSymbol   string `json:"chainSymbol,omitempty"`   // 链标识
-	Amount        string `json:"amount,omitempty"`        // 转账金额 如果所属链为btc like，则amount必传。
-	InputData     string `json:"inputData,omitempty"`     // 如果交易类型为CONTRACT_CALL合约调用时，inputData必填
+	OperationType string `json:"operationType"`       // 交易类型 必填 TRANSFER ：转账 CONTRACT_CALL ：web3合约调用
+	From          string `json:"from"`                // from地址
+	To            string `json:"to"`                  // to地址 必填 如果是合约调用，则填写合约地址
+	AssetId       string `json:"assetId,omitempty"`   // 资产id，如果交易类型为TRANSFER必填。
+	ChainSymbol   string `json:"chainSymbol"`         // 链标识
+	Amount        string `json:"amount,omitempty"`    // 转账金额 如果所属链为btc like，则amount必传。
+	InputData     string `json:"inputData,omitempty"` // 如果交易类型为CONTRACT_CALL合约调用时，inputData必填
 }
 
 type WalletTransactionFeeWAASResponse struct {
@@ -342,52 +342,52 @@ type WalletTransactionFeeWAASResponse struct {
 }
 
 type WalletTransactionSendWAASParam struct {
-	WalletId    string `json:"walletId,omitempty"`    // 钱包id
-	RequestId   string `json:"requestId,omitempty"`   // 请求方交易的requestId
-	ChainSymbol string `json:"chainSymbol,omitempty"` // 链标识
-	AssetId     string `json:"assetId,omitempty"`     // 资产id
-	From        string `json:"from,omitempty"`        // from 地址
-	To          string `json:"to,omitempty"`          // to地址
-	ToTag       string `json:"toTag,omitempty"`       // memo
-	Amount      string `json:"amount,omitempty"`      // 金额
-	Fee         string `json:"fee,omitempty"`         // 手续费 对于 UTXO 类的非EVM兼容链的交易,自设置fee, 如参数为 UTXO 资产转账提供，表示每字节的手续费
-	FeeRate     string `json:"fee_rate,omitempty"`    // 手续费费率 1:快 2:中 3:慢
-	GasPrice    string `json:"gasPrice,omitempty"`    // 交易gasPrice，燃料价格，ETH 账号模型适用，单位为 wei
-	GasLimit    string `json:"gasLimit,omitempty"`    // 交易gasLimit，燃料上限，ETH 账号模型适用
-	Note        string `json:"note,omitempty"`        // 备注：用于用户自己需要的一些备注信息
-	VaultId     string `json:"vaultId,omitempty"`     // 金库id
+	VaultId     string `json:"vaultId"`            // 金库id
+	WalletId    string `json:"walletId"`           // 钱包id
+	RequestId   string `json:"requestId"`          // 请求方交易的requestId
+	ChainSymbol string `json:"chainSymbol"`        // 链标识
+	AssetId     string `json:"assetId"`            // 资产id
+	From        string `json:"from"`               // from 地址
+	To          string `json:"to"`                 // to地址
+	ToTag       string `json:"toTag,omitempty"`    // memo
+	Amount      string `json:"amount"`             // 金额
+	Fee         string `json:"fee,omitempty"`      // 手续费 对于 UTXO 类的非EVM兼容链的交易,自设置fee, 如参数为 UTXO 资产转账提供，表示每字节的手续费
+	FeeRate     string `json:"fee_rate,omitempty"` // 手续费费率 1:快 2:中 3:慢
+	GasPrice    string `json:"gasPrice,omitempty"` // 交易gasPrice，燃料价格，ETH 账号模型适用，单位为 wei
+	GasLimit    string `json:"gasLimit,omitempty"` // 交易gasLimit，燃料上限，ETH 账号模型适用
+	Note        string `json:"note,omitempty"`     // 备注：用于用户自己需要的一些备注信息
 }
 
 type WalletTransactionSendDataWAASParam struct {
-	WalletId    string `json:"walletId,omitempty"`    // 钱包id
-	RequestId   string `json:"requestId,omitempty"`   // 请求方交易的requestId
-	ChainSymbol string `json:"chainSymbol,omitempty"` // 链标识
-	From        string `json:"from,omitempty"`        // from 地址
-	To          string `json:"to,omitempty"`          // to地址
-	ToTag       string `json:"toTag,omitempty"`       // 交易的memo
-	Amount      string `json:"amount,omitempty"`      // 金额
-	Fee         string `json:"fee,omitempty"`         // 手续费 对于 UTXO 类的非EVM兼容链的交易,自设置fee, 如参数为 UTXO 资产转账提供，表示每字节的手续费
-	FeeRate     string `json:"fee_rate,omitempty"`    // 手续费费率 1:快 2:中 3:慢
-	GasPrice    string `json:"gasPrice,omitempty"`    // gasprice
-	GasLimit    string `json:"gasLimit,omitempty"`    // gaslimit
-	Note        string `json:"note,omitempty"`        // 备注：用于用户自己需要的一些备注信息
-	InputData   string `json:"inputData,omitempty"`   // 以太坊交易data
-	VaultId     string `json:"vaultId,omitempty"`     // 金库id
+	VaultId     string `json:"vaultId"`             // 金库id
+	WalletId    string `json:"walletId"`            // 钱包id
+	RequestId   string `json:"requestId"`           // 请求方交易的requestId
+	ChainSymbol string `json:"chainSymbol"`         // 链标识
+	From        string `json:"from"`                // from 地址
+	To          string `json:"to"`                  // to地址
+	ToTag       string `json:"toTag,omitempty"`     // 交易的memo
+	Amount      string `json:"amount,omitempty"`    // 金额
+	Fee         string `json:"fee,omitempty"`       // 手续费 对于 UTXO 类的非EVM兼容链的交易,自设置fee, 如参数为 UTXO 资产转账提供，表示每字节的手续费
+	FeeRate     string `json:"fee_rate,omitempty"`  // 手续费费率 1:快 2:中 3:慢
+	GasPrice    string `json:"gasPrice,omitempty"`  // gasprice
+	GasLimit    string `json:"gasLimit,omitempty"`  // gaslimit
+	Note        string `json:"note,omitempty"`      // 备注：用于用户自己需要的一些备注信息
+	InputData   string `json:"inputData,omitempty"` // 以太坊交易data
 }
 
 type WalletTransactionSpeedupWAASParam struct {
-	RequestId   string `json:"requestId"`          // 当前请求的requestId
-	SinoId      string `json:"sinoId"`             // 要加速的交易的sinoId
-	ChainSymbol string `json:"chainSymbol"`        // 链标识
-	GasLimit    string `json:"gasLimit,omitempty"` // 交易gasLimit，燃料上限，ETH 账号模型适用
-	GasPrice    string `json:"gasPrice,omitempty"` // 交易gasPrice，燃料价格，ETH 账号模型适用，单位为 wei
-	Fee         string `json:"fee,omitempty"`      // 手续费 对于 UTXO 类的非EVM兼容链的交易,自设置fee, 如参数为 UTXO 资产转账提供，表示每字节的手续费
+	RequestId   string `json:"requestId"`             // 当前请求的requestId
+	SinoId      string `json:"sinoId"`                // 要加速的交易的sinoId
+	ChainSymbol string `json:"chainSymbol,omitempty"` // 链标识
+	GasLimit    string `json:"gasLimit,omitempty"`    // 交易gasLimit，燃料上限，ETH 账号模型适用
+	GasPrice    string `json:"gasPrice,omitempty"`    // 交易gasPrice，燃料价格，ETH 账号模型适用，单位为 wei
+	Fee         string `json:"fee,omitempty"`         // 手续费 对于 UTXO 类的非EVM兼容链的交易,自设置fee, 如参数为 UTXO 资产转账提供，表示每字节的手续费
 }
 
 type WalletTransactionCancelWAASParam struct {
-	RequestId   string `json:"requestId"`   // 当前请求的requestId
-	SinoId      string `json:"sinoId"`      // 要加速的交易的sinoId
-	ChainSymbol string `json:"chainSymbol"` // 链标识
+	RequestId   string `json:"requestId"`             // 当前请求的requestId
+	SinoId      string `json:"sinoId"`                // 要加速的交易的sinoId
+	ChainSymbol string `json:"chainSymbol,omitempty"` // 链标识
 }
 
 type WalletTransactionQueryWAASParam struct {
@@ -404,11 +404,11 @@ type WalletTransactionQueryWAASParam struct {
 }
 
 type WalletTransactionQueryWAASRequestIdParam struct {
-	RequestIds string `json:"requestIds,omitempty"` // 通过requestIds查询获取已确认交易记录列表，requestId以逗号分割，不能为空且不能大于50个
+	RequestIds string `json:"requestIds"` // 通过requestIds查询获取已确认交易记录列表，requestId以逗号分割，不能为空且不能大于50个
 }
 
 type WalletTransactionQueryBySinoIdParam struct {
-	SinoIds string `json:"sinoIds,omitempty"` // 通过sinoId查询获取已确认交易记录列表，sinoid是sinohope唯一标识交易id，以逗号分割，不能为空且不能大于50个
+	SinoIds string `json:"sinoIds"` // 通过sinoId查询获取已确认交易记录列表，sinoid是sinohope唯一标识交易id，以逗号分割，不能为空且不能大于50个
 }
 
 type WalletTransactionQueryWAASTxHashdParam struct {
@@ -425,28 +425,28 @@ type SignMessageParam struct {
 }
 
 type WaaSSignRawDataParam struct {
-	VaultId   string `json:"vaultId,omitempty"`   // 金库id
-	RequestId string `json:"requestId,omitempty"` // 唯一id 用户自己生成的请求唯一id, 用于重试
-	WalletId  string `json:"walletId,omitempty"`  // 钱包id
-	HdPath    string `json:"hdPath,omitempty"`    // 地址对应的path, eth 示例 m/1/1/60/0
-	RawData   string `json:"rawData,omitempty"`   // 签名数据
+	VaultId   string `json:"vaultId"`   // 金库id
+	RequestId string `json:"requestId"` // 唯一id 用户自己生成的请求唯一id, 用于重试
+	WalletId  string `json:"walletId"`  // 钱包id
+	HdPath    string `json:"hdPath"`    // 地址对应的path, eth 示例 m/1/1/60/0
+	RawData   string `json:"rawData"`   // 签名数据
 }
 type WaaSSignRawDataRes struct {
-	SinoId string `json:"sinoId,omitempty"` // sinohope 对此业务的唯一标识
+	SinoId string `json:"sinoId"` // sinohope 对此业务的唯一标识
 }
 
 type WaaSAddressPathParam struct {
-	VaultId       string `json:"vaultId,omitempty"`       // 金库id
-	WalletId      string `json:"walletId,omitempty"`      // 钱包id
-	Index         int    `json:"index,omitempty"`         // 用于区分同一个钱包的同一个cointype 下的不同地址
-	AlgorithmType int    `json:"algorithmType,omitempty"` // 算法类型(0: "ECDSA:secp256k1", 1: "EdDSA:ed25519")
-	CoinType      int    `json:"coinType,omitempty"`      // 参考slip-44 https://github.com/satoshilabs/slips/blob/master/slip-0044.md 中定义的coin type常量，使用none-hardened 的版本。根据业界常规做法，对于所有 eth-like 公链，可共用以太坊的 coin type 60
+	VaultId       string `json:"vaultId"`       // 金库id
+	WalletId      string `json:"walletId"`      // 钱包id
+	Index         int    `json:"index"`         // 用于区分同一个钱包的同一个cointype 下的不同地址
+	AlgorithmType int    `json:"algorithmType"` // 算法类型(0: "ECDSA:secp256k1", 1: "EdDSA:ed25519")
+	CoinType      int    `json:"coinType"`      // 参考slip-44 https://github.com/satoshilabs/slips/blob/master/slip-0044.md 中定义的coin type常量，使用none-hardened 的版本。根据业界常规做法，对于所有 eth-like 公链，可共用以太坊的 coin type 60
 }
 
 type WaaSUpdateWalletParam struct {
-	VaultId         string `json:"vaultId,omitempty"`         // 金库id
-	WalletId        string `json:"walletId,omitempty"`        // 钱包id 当指定了以后就是根据钱包开关,否则就是金库级别
-	AdvancedEnabled int    `json:"advancedEnabled,omitempty"` // 高级功能开关 (关：0，开：1) 开了以后支持的功能: 根据指定的路径创建地址 ,原始数据签名
+	VaultId         string `json:"vaultId"`         // 金库id
+	WalletId        string `json:"walletId"`        // 钱包id 当指定了以后就是根据钱包开关,否则就是金库级别
+	AdvancedEnabled int    `json:"advancedEnabled"` // 高级功能开关 (关：0，开：1) 开了以后支持的功能: 根据指定的路径创建地址 ,原始数据签名
 }
 
 type WaaSUpdateWalletRes struct {
