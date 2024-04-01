@@ -1,0 +1,8 @@
+# ide
+.idea
+*.iml
+# build
+build/
+#store
+.DS_Store
+.history/
