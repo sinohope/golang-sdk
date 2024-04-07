@@ -8,7 +8,7 @@
             "request": "launch",
             "mode": "debug",
             "program": "${workspaceFolder}/app",
-            "args": ["--mode", "mpc-node"]
+            "args": []
         }
     ]
 }
