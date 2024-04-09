@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	http2 "net/http"
 	"time"
+	"regexp"
 
 	"github.com/sinohope/sinohope-golang-sdk/common"
 	"github.com/sinohope/sinohope-golang-sdk/features"
@@ -38,16 +39,20 @@ func (g *gateway) Post(path string, request interface{}) (*common.Response, erro
 			return nil, fmt.Errorf("marshal payload failed, %v", err)
 		}
 	}
+	
+	replaceReg := regexp.MustCompile("\\s*|\n|\r|\t")
+    signPayload := replaceReg.ReplaceAllLiteralString(string(payload), "")
+
 	logrus.
 		WithField("path", path).
-		WithField("payload", string(payload)).
+		WithField("payload", signPayload).
 		Debugf("prepare to post")
 	t := timestamp()
 	header := make(map[string]string, 4)
 	header["Content-Type"] = "application/json"
 	header[common.BizApiKey] = g.s.PublicKey()
 	header[common.BizApiNone] = t
-	if signature, err := g.s.Sign(path, t, string(payload)); err != nil {
+	if signature, err := g.s.Sign(path, t, signPayload); err != nil {
 		return nil, fmt.Errorf("sign request failed, %v", err)
 	} else {
 		header[common.BizApiSignature] = signature
@@ -58,7 +63,7 @@ func (g *gateway) Post(path string, request interface{}) (*common.Response, erro
 	} else {
 		logrus.
 			WithField("path", path).
-			WithField("payload", string(payload)).
+			WithField("payload", signPayload).
 			WithField("response", string(result)).
 			Debugf("post success")
 		response := &common.Response{}
