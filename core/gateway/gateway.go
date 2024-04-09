@@ -39,9 +39,9 @@ func (g *gateway) Post(path string, request interface{}) (*common.Response, erro
 			return nil, fmt.Errorf("marshal payload failed, %v", err)
 		}
 	}
+	
 	replaceReg := regexp.MustCompile("\\s*|\n|\r|\t")
-    input := string(payload)
-    signPayload := replaceReg.ReplaceAllLiteralString(input, "")
+    signPayload := replaceReg.ReplaceAllLiteralString(string(payload), "")
 
 	logrus.
 		WithField("path", path).
