@@ -24,62 +24,82 @@ func NewBrc20API(baseUrl, private string) (features.Brc20Api, error) {
 
 // InscribeDeploy Inscribe deploy inscription
 // POST: /v1/waas/mpc/brc20/inscribe_deploy
-func (t *brc20Api) InscribeDeploy(param *commonData.InscribeDeployParam) error {
+func (t *brc20Api) InscribeDeploy(param *commonData.InscribeDeployParam) (*commonData.InscribeRes, error) {
 	if response, err := t.gw.Post("/v1/waas/mpc/brc20/inscribe_deploy", param); err != nil {
-		return fmt.Errorf("send request failed, %v", err)
+		return nil, fmt.Errorf("send request failed, %v", err)
 	} else if response.Code != commonData.MPCProxyStatusOk {
-		return fmt.Errorf("error response, code: %v msg: %v",
+		return nil, fmt.Errorf("error response, code: %v msg: %v",
 			response.Code, response.Message)
 	} else {
-		return nil
+		var result *commonData.InscribeRes
+		if err := json.Unmarshal(response.Data, &result); err != nil {
+			return nil, fmt.Errorf("unmarshal response failed, %v", err)
+		}
+		return result, nil
 	}
 }
 
 // InscribeMint Inscribe mint inscription
-func (t *brc20Api) InscribeMint(param *commonData.InscribeMintParam) error {
+func (t *brc20Api) InscribeMint(param *commonData.InscribeMintParam) (*commonData.InscribeRes, error) {
 	if response, err := t.gw.Post("/v1/waas/mpc/brc20/inscribe_mint", param); err != nil {
-		return fmt.Errorf("send request failed, %v", err)
+		return nil, fmt.Errorf("send request failed, %v", err)
 	} else if response.Code != commonData.MPCProxyStatusOk {
-		return fmt.Errorf("error response, code: %v msg: %v",
+		return nil, fmt.Errorf("error response, code: %v msg: %v",
 			response.Code, response.Message)
 	} else {
-		return nil
+		var result *commonData.InscribeRes
+		if err := json.Unmarshal(response.Data, &result); err != nil {
+			return nil, fmt.Errorf("unmarshal response failed, %v", err)
+		}
+		return result, nil
 	}
 }
 
 // InscribeTransfer Inscribe transfer inscription
-func (t *brc20Api) InscribeTransfer(param *commonData.InscribeTransferParam) error {
+func (t *brc20Api) InscribeTransfer(param *commonData.InscribeTransferParam) (*commonData.InscribeRes, error) {
 	if response, err := t.gw.Post("/v1/waas/mpc/brc20/inscribe_transfer", param); err != nil {
-		return fmt.Errorf("send request failed, %v", err)
+		return nil, fmt.Errorf("send request failed, %v", err)
 	} else if response.Code != commonData.MPCProxyStatusOk {
-		return fmt.Errorf("error response, code: %v msg: %v",
+		return nil, fmt.Errorf("error response, code: %v msg: %v",
 			response.Code, response.Message)
 	} else {
-		return nil
+		var result *commonData.InscribeRes
+		if err := json.Unmarshal(response.Data, &result); err != nil {
+			return nil, fmt.Errorf("unmarshal response failed, %v", err)
+		}
+		return result, nil
 	}
 }
 
 // InscribeTransferById Brc20 inscription transfer
-func (t *brc20Api) InscribeTransferById(param *commonData.TransferByIdParam) error {
+func (t *brc20Api) InscribeTransferById(param *commonData.TransferByIdParam) (*commonData.InscribeRes, error) {
 	if response, err := t.gw.Post("/v1/waas/mpc/brc20/inscribe_transfer_by_id", param); err != nil {
-		return fmt.Errorf("send request failed, %v", err)
+		return nil, fmt.Errorf("send request failed, %v", err)
 	} else if response.Code != commonData.MPCProxyStatusOk {
-		return fmt.Errorf("error response, code: %v msg: %v",
+		return nil, fmt.Errorf("error response, code: %v msg: %v",
 			response.Code, response.Message)
 	} else {
-		return nil
+		var result *commonData.InscribeRes
+		if err := json.Unmarshal(response.Data, &result); err != nil {
+			return nil, fmt.Errorf("unmarshal response failed, %v", err)
+		}
+		return result, nil
 	}
 }
 
 // OneStopTransfer One-stop brc20 transfer
-func (t *brc20Api) OneStopTransfer(param *commonData.OneStopTransferParam) error {
+func (t *brc20Api) OneStopTransfer(param *commonData.OneStopTransferParam) (*commonData.InscribeRes, error) {
 	if response, err := t.gw.Post("/v1/waas/mpc/brc20/one_stop_transfer", param); err != nil {
-		return fmt.Errorf("send request failed, %v", err)
+		return nil, fmt.Errorf("send request failed, %v", err)
 	} else if response.Code != commonData.MPCProxyStatusOk {
-		return fmt.Errorf("error response, code: %v msg: %v",
+		return nil, fmt.Errorf("error response, code: %v msg: %v",
 			response.Code, response.Message)
 	} else {
-		return nil
+		var result *commonData.InscribeRes
+		if err := json.Unmarshal(response.Data, &result); err != nil {
+			return nil, fmt.Errorf("unmarshal response failed, %v", err)
+		}
+		return result, nil
 	}
 }
 

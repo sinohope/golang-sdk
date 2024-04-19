@@ -9,6 +9,10 @@ type InscribeDeployParam struct {
 	ChainSymbol  string `json:"chainSymbol"`
 	From         string `json:"from"`
 }
+
+type InscribeRes struct {
+	SinoId string `json:"sinoId"`
+}
 type InscribeMintParam struct {
 	RequestId   string `json:"requestId"`
 	Ticker      string `json:"ticker"`
