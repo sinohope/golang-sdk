@@ -6,7 +6,7 @@ const (
 	FakePublicKey  = "3059301306072a8648ce3d020106082a8648ce3d0301070342000421627f551985a685e00188665a6a2f4fa80d5569fd53b31471785aad62fc9b2e23e8a9ba8a3d03b90d2c8fa5fad26fb2a05a9e7477a1ee5e4228bd85bd660309"
 	FakePrivateKey = "308193020100301306072a8648ce3d020106082a8648ce3d030107047930770201010420d59deed8651f9dc130ce12c7ce9ddbda1129a2dc0d57c6e42596188c041a9aa8a00a06082a8648ce3d030107a1440342000421627f551985a685e00188665a6a2f4fa80d5569fd53b31471785aad62fc9b2e23e8a9ba8a3d03b90d2c8fa5fad26fb2a05a9e7477a1ee5e4228bd85bd660309"
 	BaseUrl        = "https://api.sinohope.com"
-
+	//BaseUrl         = "https://api-sandbox-qa1.newhuoapps.com/"
 	BizApiKey       = "BIZ-API-KEY"
 	BizApiNone      = "BIZ-API-NONCE"
 	BizApiSignature = "BIZ-API-SIGNATURE"
@@ -265,6 +265,7 @@ type WaaSGenerateChainAddressParam struct {
 	WalletId    string `json:"walletId"`        // 钱包id
 	Count       int    `json:"count,omitempty"` // 创建多少个,不传默认为1
 	ChainSymbol string `json:"chainSymbol"`     // 链名称 简称 链标识 具有唯一性
+	Encoding    int    `json:"encoding"`
 }
 
 type WaaSListWalletsParam struct {
@@ -425,11 +426,12 @@ type SignMessageParam struct {
 }
 
 type WaaSSignRawDataParam struct {
-	VaultId   string `json:"vaultId"`   // 金库id
-	RequestId string `json:"requestId"` // 唯一id 用户自己生成的请求唯一id, 用于重试
-	WalletId  string `json:"walletId"`  // 钱包id
-	HdPath    string `json:"hdPath"`    // 地址对应的path, eth 示例 m/1/1/60/0
-	RawData   string `json:"rawData"`   // 签名数据
+	VaultId       string `json:"vaultId"`       // 金库id
+	RequestId     string `json:"requestId"`     // 唯一id 用户自己生成的请求唯一id, 用于重试
+	WalletId      string `json:"walletId"`      // 钱包id
+	HdPath        string `json:"hdPath"`        // 地址对应的path, eth 示例 m/1/1/60/0
+	RawData       string `json:"rawData"`       // 签名数据
+	AlgorithmType string `json:"algorithmType"` // 非必填，如果想执行 符合BIP340 标准的 Schnorr 签名 填1，其他情况不填或者填0
 }
 type WaaSSignRawDataRes struct {
 	SinoId string `json:"sinoId"` // sinohope 对此业务的唯一标识

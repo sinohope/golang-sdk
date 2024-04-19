@@ -1,6 +1,8 @@
 package features
 
-import "github.com/sinohope/sinohope-golang-sdk/common"
+import (
+	"github.com/sinohope/sinohope-golang-sdk/common"
+)
 
 type SinohopeWaaSAPI interface{}
 
@@ -130,4 +132,17 @@ type MPCNodeAPI interface {
 	// Status 查询MPC node状态
 	// POST: /v1/waas/mpc/mpcnode/status
 	Status() (*common.WaaSMpcNodeStatusDTOData, error)
+}
+
+type Brc20Api interface {
+	SinohopeWaaSAPI
+	InscribeDeploy(param *common.InscribeDeployParam) error
+	InscribeMint(param *common.InscribeMintParam) error
+	InscribeTransfer(param *common.InscribeTransferParam) error
+	InscribeTransferById(param *common.TransferByIdParam) error
+	OneStopTransfer(param *common.OneStopTransferParam) error
+	QueryInscribeTransfers(param *common.WaasBrc20QueryInscribeTransferReq) (*common.WaasBrc20QueryInscribeTransfersRes, error)
+	QueryPageBalanceSummary(param *common.WaasBrc20PageQueryBalanceSummaryReq) (*common.WaasBrc20PageQueryBalanceSummaryRes, error)
+	AddressTickerInfo(param *common.WaasBrc20QueryAddressTickerInfoReq) (*common.WaasBrc20QueryAddressTickerInfoRes, error)
+	AddressBalance(param *common.WaasBrc20QueryAddressBalanceReq) (*common.WaasBrc20QueryAddressBalanceRes, error)
 }
