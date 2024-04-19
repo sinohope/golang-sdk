@@ -17,22 +17,27 @@ func TestInscribeDeploy(t *testing.T) {
 		ChainSymbol:  "BTC_TEST",
 		From:         "tb1q7a0jm6rlv8umckjjxqqnwdpze30w4rwafjj4hj",
 	}
-	if err := c.InscribeDeploy(p); err != nil {
+
+	if res, err := c.InscribeDeploy(p); err != nil {
 		t.Error(err)
+	} else {
+		t.Log(res)
 	}
 }
 
 func TestInscribeMint(t *testing.T) {
 	c, _ := NewBrc20API(common.BaseUrl, common.FakePrivateKey)
 	p := &common.InscribeMintParam{
-		RequestId:   "2",
+		RequestId:   "26",
 		Ticker:      "joy1",
 		Amount:      "100",
 		ChainSymbol: "BTC_TEST",
 		From:        "tb1q7a0jm6rlv8umckjjxqqnwdpze30w4rwafjj4hj",
 	}
-	if err := c.InscribeMint(p); err != nil {
+	if res, err := c.InscribeMint(p); err != nil {
 		t.Error(err)
+	} else {
+		t.Log(res)
 	}
 }
 func TestInscribeTransfer(t *testing.T) {
@@ -44,8 +49,10 @@ func TestInscribeTransfer(t *testing.T) {
 		ChainSymbol: "BTC_TEST",
 		From:        "tb1q7a0jm6rlv8umckjjxqqnwdpze30w4rwafjj4hj",
 	}
-	if err := c.InscribeTransfer(p); err != nil {
+	if res, err := c.InscribeTransfer(p); err != nil {
 		t.Error(err)
+	} else {
+		t.Log(res)
 	}
 }
 
@@ -59,8 +66,10 @@ func TestInscribeTransferById(t *testing.T) {
 		InscriptionId: "762972c705b604b64a6665faf5ef84ca0a4e3ebb46ba8ad495b8fb569d79187ei0",
 		Ticker:        "joy1",
 	}
-	if err := c.InscribeTransferById(p); err != nil {
+	if res, err := c.InscribeTransferById(p); err != nil {
 		t.Error(err)
+	} else {
+		t.Log(res)
 	}
 }
 
@@ -74,8 +83,10 @@ func TestOneStopTransfer(t *testing.T) {
 		From:        "tb1q7a0jm6rlv8umckjjxqqnwdpze30w4rwafjj4hj",
 		To:          "2N9Fi5qKJTQDtq8CTGcqAFHRpyGDW5isbc1",
 	}
-	if err := c.OneStopTransfer(p); err != nil {
+	if res, err := c.OneStopTransfer(p); err != nil {
 		t.Error(err)
+	} else {
+		t.Log(res)
 	}
 }
 

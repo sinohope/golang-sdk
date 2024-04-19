@@ -136,11 +136,12 @@ type MPCNodeAPI interface {
 
 type Brc20Api interface {
 	SinohopeWaaSAPI
-	InscribeDeploy(param *common.InscribeDeployParam) error
-	InscribeMint(param *common.InscribeMintParam) error
-	InscribeTransfer(param *common.InscribeTransferParam) error
-	InscribeTransferById(param *common.TransferByIdParam) error
-	OneStopTransfer(param *common.OneStopTransferParam) error
+
+	InscribeDeploy(param *common.InscribeDeployParam) (*common.InscribeRes, error)
+	InscribeMint(param *common.InscribeMintParam) (*common.InscribeRes, error)
+	InscribeTransfer(param *common.InscribeTransferParam) (*common.InscribeRes, error)
+	InscribeTransferById(param *common.TransferByIdParam) (*common.InscribeRes, error)
+	OneStopTransfer(param *common.OneStopTransferParam) (*common.InscribeRes, error)
 	QueryInscribeTransfers(param *common.WaasBrc20QueryInscribeTransferReq) (*common.WaasBrc20QueryInscribeTransfersRes, error)
 	QueryPageBalanceSummary(param *common.WaasBrc20PageQueryBalanceSummaryReq) (*common.WaasBrc20PageQueryBalanceSummaryRes, error)
 	AddressTickerInfo(param *common.WaasBrc20QueryAddressTickerInfoReq) (*common.WaasBrc20QueryAddressTickerInfoRes, error)
