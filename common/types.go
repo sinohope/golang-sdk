@@ -352,8 +352,8 @@ type WalletTransactionSendWAASParam struct {
 	To          string `json:"to"`                 // to地址
 	ToTag       string `json:"toTag,omitempty"`    // memo
 	Amount      string `json:"amount"`             // 金额
-	Fee         string `json:"fee,omitempty"`      // 手续费 对于 UTXO 类的非EVM兼容链的交易,自设置fee, 如参数为 UTXO 资产转账提供，表示每字节的手续费
-	FeeRate     string `json:"fee_rate,omitempty"` // 手续费费率 1:快 2:中 3:慢
+	Fee         string `json:"fee,omitempty"`      // total transaction fee
+	FeeRate     string `json:"feeRate,omitempty"`  // fee per byte
 	GasPrice    string `json:"gasPrice,omitempty"` // 交易gasPrice，燃料价格，ETH 账号模型适用，单位为 wei
 	GasLimit    string `json:"gasLimit,omitempty"` // 交易gasLimit，燃料上限，ETH 账号模型适用
 	Note        string `json:"note,omitempty"`     // 备注：用于用户自己需要的一些备注信息
