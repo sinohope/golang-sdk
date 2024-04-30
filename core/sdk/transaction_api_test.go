@@ -1,6 +1,7 @@
 package sdk
 
 import (
+	"encoding/json"
 	"testing"
 
 	"github.com/sinohope/sinohope-golang-sdk/common"
@@ -112,4 +113,19 @@ func TestLegacy2Native(t *testing.T) {
 	} else {
 		t.Log(res)
 	}
+}
+
+func TestQueryByRequestId(t *testing.T) {
+	a := log.App{}
+	l := log.Log{}
+	log.SetLogDetailsByConfig(a, l)
+
+	m, err := NewTransactionAPI(common.BaseUrl, common.FakePrivateKey)
+	if err != nil {
+		t.Fatalf("create new mpc api failed, %v", err)
+	}
+
+	res, _ := m.TransactionsByRequestIds(&common.WalletTransactionQueryWAASRequestIdParam{RequestIds: "24,25,26"})
+	d, _ := json.Marshal(res)
+	t.Log(string(d))
 }
