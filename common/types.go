@@ -94,7 +94,7 @@ type CreateSettlementTxResData struct {
 	ChainSymbol    string      `json:"chainSymbol,omitempty"`
 	TxDirection    int         `json:"txDirection,omitempty"`
 	Transaction    TxInfo      `json:"transaction,omitempty"`
-	Brc20Detail    brc20Detail `json:"brc20Detail"`
+	Brc20Detail    brc20Detail `json:"brc20Detail,omitempty"`
 	State          int         `json:"state,omitempty"`
 	Note           string      `json:"note,omitempty"`
 }
@@ -102,10 +102,10 @@ type brc20Detail struct {
 	Method        string `json:"method"`
 	Ticker        string `json:"ticker"`
 	Quantity      string `json:"quantity"`
-	InscriptionId string `json:"inscriptionId"`
+	InscriptionId string `json:"inscriptionId,omitempty"`
 	Step          int    `json:"step"`
-	From          string `json:"from"`
-	To            string `json:"to"`
+	From          string `json:"from,omitempty"`
+	To            string `json:"to,omitempty"`
 }
 
 type TxInfo struct {
