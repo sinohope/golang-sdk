@@ -88,14 +88,24 @@ type WaaSTransferAddressSwitchDTOData struct {
 }
 
 type CreateSettlementTxResData struct {
-	SinoId         string `json:"sinoId,omitempty"`
-	RequestId      string `json:"requestId,omitempty"`
-	ReplacedSinoId string `json:"replacedSinoId,omitempty"`
-	ChainSymbol    string `json:"chainSymbol,omitempty"`
-	TxDirection    int    `json:"txDirection,omitempty"`
-	Transaction    TxInfo `json:"transaction,omitempty"`
-	State          int    `json:"state,omitempty"`
-	Note           string `json:"note,omitempty"`
+	SinoId         string      `json:"sinoId,omitempty"`
+	RequestId      string      `json:"requestId,omitempty"`
+	ReplacedSinoId string      `json:"replacedSinoId,omitempty"`
+	ChainSymbol    string      `json:"chainSymbol,omitempty"`
+	TxDirection    int         `json:"txDirection,omitempty"`
+	Transaction    TxInfo      `json:"transaction,omitempty"`
+	Brc20Detail    brc20Detail `json:"brc20Detail"`
+	State          int         `json:"state,omitempty"`
+	Note           string      `json:"note,omitempty"`
+}
+type brc20Detail struct {
+	Method        string `json:"method"`
+	Ticker        string `json:"ticker"`
+	Quantity      string `json:"quantity"`
+	InscriptionId string `json:"inscriptionId"`
+	Step          int    `json:"step"`
+	From          string `json:"from"`
+	To            string `json:"to"`
 }
 
 type TxInfo struct {
