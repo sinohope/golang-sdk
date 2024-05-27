@@ -97,6 +97,7 @@ type CreateSettlementTxResData struct {
 	Brc20Detail    brc20Detail `json:"brc20Detail,omitempty"`
 	State          int         `json:"state,omitempty"`
 	Note           string      `json:"note,omitempty"`
+	FailReason     string      `json:"failReason,omitempty"`
 }
 type brc20Detail struct {
 	Method        string `json:"method"`
@@ -367,6 +368,7 @@ type WalletTransactionSendWAASParam struct {
 	GasPrice    string `json:"gasPrice,omitempty"` // 交易gasPrice，燃料价格，ETH 账号模型适用，单位为 wei
 	GasLimit    string `json:"gasLimit,omitempty"` // 交易gasLimit，燃料上限，ETH 账号模型适用
 	Note        string `json:"note,omitempty"`     // 备注：用于用户自己需要的一些备注信息
+	UtxoType    string `json:"utxoType,omitempty"` // UTXO类型：btc_only、all(包括铭文)，非必填，空缺情况下是btc_only。请谨慎使用all，这有可能会将有价值的铭文UTXO转走。
 }
 
 type WalletTransactionSendDataWAASParam struct {
@@ -436,12 +438,19 @@ type SignMessageParam struct {
 }
 
 type WaaSSignRawDataParam struct {
-	VaultId       string `json:"vaultId"`       // 金库id
-	RequestId     string `json:"requestId"`     // 唯一id 用户自己生成的请求唯一id, 用于重试
-	WalletId      string `json:"walletId"`      // 钱包id
-	HdPath        string `json:"hdPath"`        // 地址对应的path, eth 示例 m/1/1/60/0
-	RawData       string `json:"rawData"`       // 签名数据
-	AlgorithmType string `json:"algorithmType"` // 非必填，如果想执行 符合BIP340 标准的 Schnorr 签名 填1，其他情况不填或者填0
+	VaultId   string `json:"vaultId"`   // 金库id
+	RequestId string `json:"requestId"` // 唯一id 用户自己生成的请求唯一id, 用于重试
+	WalletId  string `json:"walletId"`  // 钱包id
+	HdPath    string `json:"hdPath"`    // 地址对应的path, eth 示例 m/1/1/60/0
+	RawData   string `json:"rawData"`   // 签名数据
+	/**
+	 * AlgorithmType 未提供或值为0 时（当前默认），使用创建地址时所指定的算法及曲线类型（ecdsa-secp256k1/eddsa-ed25519）执行默认的签名，
+	 * 值为 1 时（只对 ecdsa-secp256k1 的密钥有效）执行 符合BIP340 标准的 Schnorr 签名（支持 Bitcoin 铭文reveal交易）
+	 * 值为 2 时（只对 ecdsa-secp256k1 的密钥有效）执行 Taproot 签名
+	 */
+	AlgorithmType int `json:"algorithmType"`
+	// 非必填 Taproot签名的script树根
+	TapScriptRoot string `json:"tapScriptRoot"`
 }
 type WaaSSignRawDataRes struct {
 	SinoId string `json:"sinoId"` // sinohope 对此业务的唯一标识
