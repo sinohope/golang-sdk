@@ -147,3 +147,9 @@ type Brc20Api interface {
 	AddressTickerInfo(param *common.WaasBrc20QueryAddressTickerInfoReq) (*common.WaasBrc20QueryAddressTickerInfoRes, error)
 	AddressBalance(param *common.WaasBrc20QueryAddressBalanceReq) (*common.WaasBrc20QueryAddressBalanceRes, error)
 }
+
+type RuneApi interface {
+	Transfer(param *common.RuneTransferParam) (*common.InscribeRes, error)
+	PageBalanceSummary(param *common.RunePageBalanceSummaryParam) (*common.RunePageBalanceSummaryRes, error)
+	QueryBalance(param *common.RuneQueryBalanceParam) (*common.RuneQueryBalanceRes, error)
+}
