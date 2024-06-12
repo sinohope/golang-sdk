@@ -153,3 +153,51 @@ type WaasBrc20QueryAddressTickerInfoRes struct {
 		Confirmations     int    `json:"confirmations"`
 	} `json:"historyInscriptions"`
 }
+
+type RuneTransferParam struct {
+	RequestId   string `json:"requestId"`
+	ChainSymbol string `json:"chainSymbol"`
+	From        string `json:"from"`
+	To          string `json:"to"`
+	RuneId      string `json:"runeId"`
+	Amount      string `json:"amount"`
+	FeeRate     int    `json:"feeRate"`
+	Note        string `json:"note"`
+}
+
+type RunePageBalanceSummaryParam struct {
+	ChainSymbol string `json:"chainSymbol"`
+	Start       int    `json:"start"`
+	Limit       int    `json:"limit"`
+	Address     string `json:"address"`
+}
+
+type RunePageBalanceSummaryRes struct {
+	Height int `json:"height"`
+	Total  int `json:"total"`
+	Start  int `json:"start"`
+	Detail []struct {
+		Ticker                 string `json:"ticker"`
+		OverallBalance         string `json:"overallBalance"`
+		TransferableBalance    string `json:"transferableBalance"`
+		AvailableBalance       string `json:"availableBalance"`
+		AvailableBalanceSafe   string `json:"availableBalanceSafe"`
+		AvailableBalanceUnSafe string `json:"availableBalanceUnSafe"`
+		Decimal                int    `json:"decimal"`
+	} `json:"detail"`
+}
+
+type RuneQueryBalanceParam struct {
+	ChainSymbol string `json:"chainSymbol"`
+	Address     string `json:"address"`
+	RuneId      string `json:"runeId"`
+}
+
+type RuneQueryBalanceRes struct {
+	Rune         string `json:"rune"`
+	Runeid       string `json:"runeid"`
+	SpacedRune   string `json:"spacedRune"`
+	Amount       string `json:"amount"`
+	Symbol       string `json:"symbol"`
+	Divisibility int    `json:"divisibility"`
+}
