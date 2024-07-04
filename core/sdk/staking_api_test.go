@@ -33,7 +33,6 @@ func TestUnbond(t *testing.T) {
 	p := &common.UnbondCreateParam{
 		RequestId:    "1114",
 		OriRequestId: "1012",
-		FeeRate:      "80",
 	}
 	res, err := s.Unbond(p)
 	if err != nil {

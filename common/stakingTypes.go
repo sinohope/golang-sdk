@@ -18,7 +18,6 @@ type UnbondCreateParam struct {
 	RequestId    string `json:"requestId"`
 	OriSinoId    string `json:"oriSinoId"`
 	OriRequestId string `json:"oriRequestId"`
-	FeeRate      string `json:"feeRate,omitempty"`
 	Note         string `json:"note,omitempty"`
 }
 
