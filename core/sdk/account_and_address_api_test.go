@@ -38,12 +38,12 @@ func TestGenChainAddress(t *testing.T) {
 		t.Fatalf("create new mpc api failed, %v", err)
 	}
 	param := &common.WaaSGenerateChainAddressParam{
-		RequestId:   "004",
+		RequestId:   "1005",
 		VaultId:     "534605276521221",
 		WalletId:    "534606724211461",
 		Count:       1,
-		ChainSymbol: "BTC_TEST",
-		Encoding:    3,
+		ChainSymbol: "SIGNET",
+		Encoding:    2,
 	}
 	res, err := m.GenerateChainAddresses(param)
 	if err != nil {

@@ -153,3 +153,8 @@ type RuneApi interface {
 	PageBalanceSummary(param *common.RunePageBalanceSummaryParam) (*common.RunePageBalanceSummaryRes, error)
 	QueryBalance(param *common.RuneQueryBalanceParam) (*common.RuneQueryBalanceRes, error)
 }
+type StakingApi interface {
+	Create(param *common.StakingCreateParam) (*common.StakingRes, error)
+	Unbond(param *common.UnbondCreateParam) (*common.StakingRes, error)
+	SpendingTimeLockPathTx(param *common.SpendingTimeLockPathTxParam) (*common.StakingRes, error)
+}

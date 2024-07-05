@@ -6,7 +6,7 @@ const (
 	FakePublicKey  = "3059301306072a8648ce3d020106082a8648ce3d0301070342000421627f551985a685e00188665a6a2f4fa80d5569fd53b31471785aad62fc9b2e23e8a9ba8a3d03b90d2c8fa5fad26fb2a05a9e7477a1ee5e4228bd85bd660309"
 	FakePrivateKey = "308193020100301306072a8648ce3d020106082a8648ce3d030107047930770201010420d59deed8651f9dc130ce12c7ce9ddbda1129a2dc0d57c6e42596188c041a9aa8a00a06082a8648ce3d030107a1440342000421627f551985a685e00188665a6a2f4fa80d5569fd53b31471785aad62fc9b2e23e8a9ba8a3d03b90d2c8fa5fad26fb2a05a9e7477a1ee5e4228bd85bd660309"
 	BaseUrl        = "https://api.sinohope.com"
-	//BaseUrl         = "https://api-sandbox-qa1.newhuoapps.com/"
+	//BaseUrl         = "http://mpc-wallet-server.mpc.qa1.newhuoapps.com/"
 	BizApiKey       = "BIZ-API-KEY"
 	BizApiNone      = "BIZ-API-NONCE"
 	BizApiSignature = "BIZ-API-SIGNATURE"
