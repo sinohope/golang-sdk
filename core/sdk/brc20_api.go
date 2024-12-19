@@ -3,9 +3,9 @@ package sdk
 import (
 	"encoding/json"
 	"fmt"
-	commonData "github.com/sinohope/sinohope-golang-sdk/common"
-	"github.com/sinohope/sinohope-golang-sdk/core/gateway"
-	"github.com/sinohope/sinohope-golang-sdk/features"
+	commonData "github.com/sinohope/golang-sdk/common"
+	"github.com/sinohope/golang-sdk/core/gateway"
+	"github.com/sinohope/golang-sdk/features"
 )
 
 type brc20Api struct {

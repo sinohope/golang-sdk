@@ -1,6 +1,6 @@
 package sdk
 
-import "github.com/sinohope/sinohope-golang-sdk/features"
+import "github.com/sinohope/golang-sdk/features"
 
 type APIClient struct {
 	Common            features.CommonAPI

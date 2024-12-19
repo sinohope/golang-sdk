@@ -6,11 +6,11 @@ import (
 	"fmt"
 	"io/ioutil"
 	http2 "net/http"
-	"time"
 	"regexp"
+	"time"
 
-	"github.com/sinohope/sinohope-golang-sdk/common"
-	"github.com/sinohope/sinohope-golang-sdk/features"
+	"github.com/sinohope/golang-sdk/common"
+	"github.com/sinohope/golang-sdk/features"
 	"github.com/sirupsen/logrus"
 )
 
@@ -39,9 +39,9 @@ func (g *gateway) Post(path string, request interface{}) (*common.Response, erro
 			return nil, fmt.Errorf("marshal payload failed, %v", err)
 		}
 	}
-	
+
 	replaceReg := regexp.MustCompile("\\s*|\n|\r|\t")
-    signPayload := replaceReg.ReplaceAllLiteralString(string(payload), "")
+	signPayload := replaceReg.ReplaceAllLiteralString(string(payload), "")
 
 	logrus.
 		WithField("path", path).
