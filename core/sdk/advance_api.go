@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/sinohope/sinohope-golang-sdk/common"
-	"github.com/sinohope/sinohope-golang-sdk/core/gateway"
-	"github.com/sinohope/sinohope-golang-sdk/features"
+	"github.com/sinohope/golang-sdk/common"
+	"github.com/sinohope/golang-sdk/core/gateway"
+	"github.com/sinohope/golang-sdk/features"
 )
 
 type advanceAPI struct {

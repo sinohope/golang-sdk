@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/sinohope/sinohope-golang-sdk/common"
-	"github.com/sinohope/sinohope-golang-sdk/log"
+	"github.com/sinohope/golang-sdk/common"
+	"github.com/sinohope/golang-sdk/log"
 )
 
 func TestFee(t *testing.T) {

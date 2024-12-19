@@ -1,4 +1,4 @@
-module github.com/sinohope/sinohope-golang-sdk
+module github.com/sinohope/golang-sdk
 
 go 1.19
 

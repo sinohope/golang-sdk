@@ -1,7 +1,7 @@
 package sdk
 
 import (
-	"github.com/sinohope/sinohope-golang-sdk/common"
+	"github.com/sinohope/golang-sdk/common"
 	"testing"
 )
 
