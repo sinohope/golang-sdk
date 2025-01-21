@@ -104,7 +104,7 @@ type TransactionAPI interface {
 	// SignMessage 按已知的规范签名消息（EIP-191、 EIP-712）
 	// POST: /v1/waas/mpc/web3/sign_message
 	SignMessage(param *common.SignMessageParam) (*common.WaaSMessageHashResult, error)
-	PageAvailableVouts(param *common.PageAvailableVoutsParam) (*common.PageData, error)
+	PageAvailableVouts(param *common.PageAvailableVoutsParam) (*common.PageAvailableVoutsRes, error)
 }
 
 type AdvanceAPI interface {

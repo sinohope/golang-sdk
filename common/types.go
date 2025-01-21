@@ -59,6 +59,13 @@ type PageData struct {
 	List      json.RawMessage `json:"list,omitempty"`
 }
 
+type PageAvailableVoutsRes struct {
+	PageIndex int    `json:"pageIndex,omitempty"`
+	PageSize  int    `json:"pageSize,omitempty"`
+	TotalSize int    `json:"totalSize,omitempty"`
+	List      []*Vin `json:"list,omitempty"`
+}
+
 type WaaSAddressInfoData struct {
 	ID       string `json:"id,omitempty"`       // 地址id
 	Address  string `json:"address,omitempty"`  // 链地址
@@ -373,7 +380,7 @@ type WalletTransactionSendWAASParam struct {
 }
 
 type Vin struct {
-	Id              int    `json:"id"`
+	Id              int    `json:"id,omitempty"`
 	TransactionHash string `json:"transactionHash"`
 	VoutIndex       int    `json:"voutIndex"`
 	Address         string `json:"address"`
@@ -466,15 +473,6 @@ type WaaSSignRawDataRes struct {
 }
 
 type PageAvailableVoutsParam struct {
-	ChainSymbol string `json:"chainSymbol"`
-	From        string `json:"from"`
-	Page        int    `json:"page"`
-	PageSize    int    `json:"pageSize"`
-	Sort        int    `json:"sort"`
-	SortType    string `json:"sortType"`
-}
-
-type PageAvailableVoutsRes struct {
 	ChainSymbol string `json:"chainSymbol"`
 	From        string `json:"from"`
 	Page        int    `json:"page"`
