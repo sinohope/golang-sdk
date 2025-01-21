@@ -59,6 +59,13 @@ type PageData struct {
 	List      json.RawMessage `json:"list,omitempty"`
 }
 
+type PageAvailableVoutsRes struct {
+	PageIndex int    `json:"pageIndex,omitempty"`
+	PageSize  int    `json:"pageSize,omitempty"`
+	TotalSize int    `json:"totalSize,omitempty"`
+	List      []*Vin `json:"list,omitempty"`
+}
+
 type WaaSAddressInfoData struct {
 	ID       string `json:"id,omitempty"`       // 地址id
 	Address  string `json:"address,omitempty"`  // 链地址
@@ -369,6 +376,15 @@ type WalletTransactionSendWAASParam struct {
 	GasLimit    string `json:"gasLimit,omitempty"` // 交易gasLimit，燃料上限，ETH 账号模型适用
 	Note        string `json:"note,omitempty"`     // 备注：用于用户自己需要的一些备注信息
 	UtxoType    string `json:"utxoType,omitempty"` // UTXO类型：btc_only、all(包括铭文)，非必填，空缺情况下是btc_only。请谨慎使用all，这有可能会将有价值的铭文UTXO转走。
+	Vins        []*Vin `json:"vins,omitempty"`
+}
+
+type Vin struct {
+	Id              int    `json:"id,omitempty"`
+	TransactionHash string `json:"transactionHash"`
+	VoutIndex       int    `json:"voutIndex"`
+	Address         string `json:"address"`
+	Amount          int64  `json:"amount"`
 }
 
 type WalletTransactionSendDataWAASParam struct {
@@ -454,6 +470,15 @@ type WaaSSignRawDataParam struct {
 }
 type WaaSSignRawDataRes struct {
 	SinoId string `json:"sinoId"` // sinohope 对此业务的唯一标识
+}
+
+type PageAvailableVoutsParam struct {
+	ChainSymbol string `json:"chainSymbol"`
+	From        string `json:"from"`
+	Page        int    `json:"page"`
+	PageSize    int    `json:"pageSize"`
+	Sort        int    `json:"sort"`
+	SortType    string `json:"sortType"`
 }
 
 type WaaSAddressPathParam struct {

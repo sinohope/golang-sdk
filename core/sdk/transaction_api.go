@@ -194,3 +194,18 @@ func (t *transactionAPI) SignMessage(param *commonData.SignMessageParam) (*commo
 		return result, nil
 	}
 }
+
+func (t *transactionAPI) PageAvailableVouts(param *commonData.PageAvailableVoutsParam) (*common.PageAvailableVoutsRes, error) {
+	if response, err := t.gw.Post("/v1/waas/mpc/transaction/page_available_vouts", param); err != nil {
+		return nil, fmt.Errorf("send request failed, %v", err)
+	} else if response.Code != commonData.MPCProxyStatusOk {
+		return nil, fmt.Errorf("error response, code: %v msg: %v",
+			response.Code, response.Message)
+	} else {
+		var result *commonData.PageAvailableVoutsRes
+		if err := json.Unmarshal(response.Data, &result); err != nil {
+			return nil, fmt.Errorf("unmarshal response failed, %v", err)
+		}
+		return result, nil
+	}
+}

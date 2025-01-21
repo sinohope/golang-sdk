@@ -129,3 +129,58 @@ func TestQueryByRequestId(t *testing.T) {
 	d, _ := json.Marshal(res)
 	t.Log(string(d))
 }
+
+func TestPageAvailableVouts(t *testing.T) {
+	api, err := NewTransactionAPI(common.BaseUrl, common.FakePrivateKey)
+	if err != nil {
+		t.Fatalf("create new mpc api failed, %v", err)
+	}
+	param := &common.PageAvailableVoutsParam{
+		ChainSymbol: "BTC_TEST",
+		From:        "tb1q7a0jm6rlv8umckjjxqqnwdpze30w4rwafjj4hj",
+		Page:        1,
+		PageSize:    10,
+	}
+	res, err := api.PageAvailableVouts(param)
+	if err != nil {
+		t.Error(err)
+	}
+	d, _ := json.Marshal(res)
+	t.Log(string(d))
+}
+
+func TestTransferVins(t *testing.T) {
+	api, err := NewTransactionAPI(common.BaseUrl, common.FakePrivateKey)
+	if err != nil {
+		t.Fatalf("create new mpc api failed, %v", err)
+	}
+
+	var vins = []*common.Vin{&common.Vin{
+		Id:              9836,
+		TransactionHash: "02f6382da8c14fd42c0e80a92d2bd5d6c66fb965f36e768510984b575d884aa4",
+		VoutIndex:       0,
+		Address:         "tb1q7a0jm6rlv8umckjjxqqnwdpze30w4rwafjj4hj",
+		Amount:          90000,
+	},
+	}
+	param := &common.WalletTransactionSendWAASParam{
+		RequestId:   "1000070",
+		ChainSymbol: "BTC_TEST",
+		AssetId:     "BTC_BTC_TEST",
+		From:        "tb1q7a0jm6rlv8umckjjxqqnwdpze30w4rwafjj4hj",
+		To:          "n1QwsxKD3uZH9mmoCQKdsMbqi81tuD9QR3",
+		Amount:      "10000",
+		VaultId:     "534605276521221",
+		WalletId:    "534606724211461",
+		ToTag:       "32143",
+		Note:        "用户交易信息备注",
+		FeeRate:     "10",
+		Vins:        vins,
+	}
+	res, err := api.CreateTransfer(param)
+	if err != nil {
+		t.Fatalf(err.Error())
+	} else {
+		t.Log(res)
+	}
+}
