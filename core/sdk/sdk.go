@@ -10,6 +10,7 @@ type APIClient struct {
 	MPCNode           features.MPCNodeAPI
 	Brc20             features.Brc20Api
 	Rune              features.RuneApi
+	Sweep             features.SweepApi
 }
 
 func NewApiClient(baseUrl, private string) (*APIClient, error) {
@@ -34,7 +35,14 @@ func NewApiClient(baseUrl, private string) (*APIClient, error) {
 		return nil, err
 	}
 	brc20API, err := NewBrc20API(baseUrl, private)
+	if err != nil {
+		return nil, err
+	}
 	runeApi, err := NewRuneApi(baseUrl, private)
+	if err != nil {
+		return nil, err
+	}
+	sweepApi, err := newSweepApi(baseUrl, private)
 	if err != nil {
 		return nil, err
 	}
@@ -46,5 +54,6 @@ func NewApiClient(baseUrl, private string) (*APIClient, error) {
 		MPCNode:           mpcNodeAPI,
 		Brc20:             brc20API,
 		Rune:              runeApi,
+		Sweep:             sweepApi,
 	}, nil
 }
