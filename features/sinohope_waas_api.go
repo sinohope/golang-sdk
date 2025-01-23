@@ -159,3 +159,10 @@ type StakingApi interface {
 	Unbond(param *common.UnbondCreateParam) (*common.StakingRes, error)
 	SpendingTimeLockPathTx(param *common.SpendingTimeLockPathTxParam) (*common.StakingRes, error)
 }
+
+type SweepApi interface {
+	CollectionStrategy(param *common.CollectionStrategyReq) (*common.Response, error)
+	CollectionStrategyLists(param *common.CollectionStrategyListsReq) (*common.PageCollectStrategyRes, error)
+	SetGasStation(param *common.SetGasStationReq) (*common.Response, error)
+	GasStationLists(param *common.GasStationListsReq) ([]*common.GasStationRes, error)
+}
