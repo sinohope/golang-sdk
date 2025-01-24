@@ -166,3 +166,24 @@ type SweepApi interface {
 	SetGasStation(param *common.SetGasStationReq) (*common.Response, error)
 	GasStationLists(param *common.GasStationListsReq) ([]*common.GasStationRes, error)
 }
+
+type OpenAPI interface {
+	CreateWallets(param *common.WaaSCreateBatchWalletParam) ([]*common.WaaSWalletInfoData, error)
+	ListWallets(param *common.WaaSListWalletsParam) (*common.WaaSListWalletsResult, error)
+	GenerateChainAddresses(param *common.WaaSGenerateChainAddressParam) ([]*common.WaaSAddressInfoData, error)
+	ListAddress(param *common.WaaSListAddressesParam) (*common.WaaSListAddressesResult, error)
+	ListAddedChains(param *common.WaaSListAddedChainsParam) ([]*common.WaaSListAddedChainsDTOData, error)
+	GetAddressBalance(param *common.WaaSGetAddressBalanceParam) (*common.WaaSGetWalletBalanceDTOData, error)
+	GetSupportedChains() ([]*common.WaasChainData, error)
+	GetSupportedCoins(param *common.WaasChainParam) ([]*common.WaaSCoinDTOData, error)
+	GetVaults() ([]*common.WaaSVaultInfoData, error)
+	Fee(param *common.WalletTransactionFeeWAASParam) (*common.WalletTransactionFeeWAASResponse, error)
+	CreateTransfer(param *common.WalletTransactionSendWAASParam) (*common.CreateSettlementTxResData, error)
+	SpeedupTransaction(param *common.WalletTransactionSpeedupWAASParam) (*common.CreateSettlementTxResData, error)
+	CancelTransaction(param *common.WalletTransactionCancelWAASParam) (*common.CreateSettlementTxResData, error)
+	TransactionsByRequestIds(param *common.WalletTransactionQueryWAASRequestIdParam) (*common.TransferHistoryWAASDTO, error)
+	TransactionsBySinoIds(param *common.WalletTransactionQueryBySinoIdParam) (*common.TransferHistoryWAASDTO, error)
+	TransactionsByTxHash(param *common.WalletTransactionQueryWAASTxHashdParam) (*common.TransferHistoryWAASDTO, error)
+	ListTransactions(param *common.WalletTransactionQueryWAASParam) (*common.TransferHistoryWAASDTO, error)
+	IsValidAddress(param *common.WaaSAddressCheckParam) (*common.WaaSAddressCheckDTOData, error)
+}
