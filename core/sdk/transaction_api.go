@@ -28,7 +28,9 @@ func NewTransactionAPI(baseUrl, private string) (features.TransactionAPI, error)
 // CreateTransfer 发起转账交易
 // POST: /v1/waas/mpc/transaction/create_transfer
 func (t *transactionAPI) CreateTransfer(param *commonData.WalletTransactionSendWAASParam) (*commonData.CreateSettlementTxResData, error) {
-	if response, err := t.gw.Post("/v1/waas/mpc/transaction/create_transfer", param); err != nil {
+	response, err := t.gw.Post("/v1/waas/mpc/transaction/create_transfer", param)
+
+	if err != nil {
 		return nil, fmt.Errorf("send request failed, %v", err)
 	} else if response.Code != commonData.MPCProxyStatusOk {
 		return nil, fmt.Errorf("error response, code: %v msg: %v",
