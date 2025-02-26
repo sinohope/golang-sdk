@@ -69,13 +69,17 @@ func (g *gateway) Post(path string, request interface{}) (*common.Response, erro
 		// 处理成功的情况
 		defer resp.Body.Close()
 		result, err := ioutil.ReadAll(resp.Body)
+		var resultStr = ""
+		if result != nil && len(result) > 0 {
+			resultStr = string(result)
+		}
 		if err != nil {
 			logrus.
 				WithField("path", path).
 				WithField("payload", signPayload).
-				WithField("response", string(result)).
+				WithField("result", resultStr).
 				Errorf("post completed")
-			return nil, fmt.Errorf("read response failed, %v", err)
+			return nil, fmt.Errorf("read response failed, %v result=%s", err, resultStr)
 		}
 		response := &common.Response{}
 		err = json.Unmarshal(result, response)
@@ -83,9 +87,9 @@ func (g *gateway) Post(path string, request interface{}) (*common.Response, erro
 			logrus.
 				WithField("path", path).
 				WithField("payload", signPayload).
-				WithField("response", string(result)).
+				WithField("result", resultStr).
 				Errorf("json Unmarshal")
-			return nil, fmt.Errorf("unmarshal response failed, %v", err)
+			return nil, fmt.Errorf("unmarshal response failed, %v result=%s", err, resultStr)
 		}
 		return response, nil
 	case http2.StatusBadRequest: // 400
