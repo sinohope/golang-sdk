@@ -58,24 +58,52 @@ func (g *gateway) Post(path string, request interface{}) (*common.Response, erro
 		header[common.BizApiSignature] = signature
 	}
 	url := fmt.Sprintf("%s%s", g.baseUrl, path)
-	if result, err := doPost(url, header, request); err != nil {
+
+	resp, err := doPost(url, header, request)
+	if err != nil {
 		return nil, fmt.Errorf("post request failed, %v", err)
-	} else {
-		logrus.
-			WithField("path", path).
-			WithField("payload", signPayload).
-			WithField("response", string(result)).
-			Debugf("post success")
-		response := &common.Response{}
-		if err := json.Unmarshal(result, response); err != nil {
-			return nil, fmt.Errorf("unmarshal response failed, %v", err)
-		} else {
-			return response, nil
+	}
+
+	switch resp.StatusCode {
+	case http2.StatusOK: // 200
+		// 处理成功的情况
+		defer resp.Body.Close()
+		result, err := ioutil.ReadAll(resp.Body)
+		var resultStr = ""
+		if result != nil && len(result) > 0 {
+			resultStr = string(result)
 		}
+		if err != nil {
+			logrus.
+				WithField("path", path).
+				WithField("payload", signPayload).
+				WithField("result", resultStr).
+				Errorf("post completed")
+			return nil, fmt.Errorf("read response failed, %v result=%s", err, resultStr)
+		}
+		response := &common.Response{}
+		err = json.Unmarshal(result, response)
+		if err != nil {
+			logrus.
+				WithField("path", path).
+				WithField("payload", signPayload).
+				WithField("result", resultStr).
+				Errorf("json Unmarshal")
+			return nil, fmt.Errorf("unmarshal response failed, %v result=%s", err, resultStr)
+		}
+		return response, nil
+	case http2.StatusBadRequest: // 400
+		return nil, fmt.Errorf("bad request: %s", resp.Status)
+	case http2.StatusUnauthorized: // 401
+		return nil, fmt.Errorf("unauthorized: %s", resp.Status)
+	case http2.StatusInternalServerError: // 500
+		return nil, fmt.Errorf("server error: %s", resp.Status)
+	default:
+		return nil, fmt.Errorf("unexpected status code: %d, status: %s", resp.StatusCode, resp.Status)
 	}
 }
 
-func doPost(url string, headers map[string]string, body interface{}) ([]byte, error) {
+func doPost(url string, headers map[string]string, body interface{}) (*http2.Response, error) {
 	var err error
 	var payloadBytes []byte
 	if body != nil {
@@ -92,12 +120,7 @@ func doPost(url string, headers map[string]string, body interface{}) ([]byte, er
 	for k, v := range headers {
 		req.Header.Add(k, v)
 	}
-	res, err := client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer res.Body.Close()
-	return ioutil.ReadAll(res.Body)
+	return client.Do(req)
 }
 
 func timestamp() string {
