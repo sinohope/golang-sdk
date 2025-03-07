@@ -377,11 +377,11 @@ type WalletTransactionSendWAASParam struct {
 	Note        string `json:"note,omitempty"`     // 备注：用于用户自己需要的一些备注信息
 	UtxoType    string `json:"utxoType,omitempty"` // UTXO类型：btc_only、all(包括铭文)，非必填，空缺情况下是btc_only。请谨慎使用all，这有可能会将有价值的铭文UTXO转走。
 	Vins        []*Vin `json:"vins,omitempty"`
-	tokenId     string `json:"utxoType,omitempty"`
+	TokenId     string `json:"utxoType,omitempty"`
 	/**
 	 *
 	 */
-	utxoSelector int `json:"utxoType,omitempty"` //utxo选择，0-默认模式，按照金额就近选；1-按照金额从大到校；1-按照金额从小到大
+	UtxoSelector int `json:"utxoType,omitempty"` //utxo选择，0-默认模式，按照金额就近选；1-按照金额从大到校；1-按照金额从小到大
 }
 
 type Vin struct {
