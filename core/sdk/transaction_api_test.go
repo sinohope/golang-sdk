@@ -149,6 +149,24 @@ func TestPageAvailableVouts(t *testing.T) {
 	t.Log(string(d))
 }
 
+func TestSetDelegateEnergy(t *testing.T) {
+	api, err := NewTransactionAPI(common.BaseUrl, common.FakePrivateKey)
+	if err != nil {
+		t.Fatalf("create new mpc api failed, %v", err)
+	}
+	param := &common.SetDelegateEnergyReq{
+		ChainSymbol:       "TRON",
+		SettlementAddress: "TUsP8e5wakmWnj7dzVdQZA5mzg9JeDNkzz",
+		IsEnabled:         1,
+	}
+	res, err := api.SetDelegateEnergy(param)
+	if err != nil {
+		t.Error(err)
+	}
+	d, _ := json.Marshal(res)
+	t.Log(string(d))
+}
+
 func TestTransferVins(t *testing.T) {
 	api, err := NewTransactionAPI(common.BaseUrl, common.FakePrivateKey)
 	if err != nil {
