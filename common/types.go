@@ -382,6 +382,7 @@ type WalletTransactionSendWAASParam struct {
 	 *
 	 */
 	UtxoSelector int `json:"utxoSelector,omitempty"` //utxo选择，0-默认模式，按照金额就近选；1-按照金额从大到小；2-按照金额从小到大
+
 }
 
 type Vin struct {
@@ -525,4 +526,10 @@ type MPCNodeExecRecord struct {
 	BusinessExecStatus int    `json:"businessExecStatus,omitempty"` // 业务执行状态 (进行中：0，成功：1，失败：2）
 	IsSuccess          bool   `json:"isSuccess,omitempty"`          // 是否成功
 	FailedReason       string `json:"failedReason,omitempty"`       // 失败原因
+}
+
+type SetDelegateEnergyReq struct {
+	ChainSymbol       string `json:"chainSymbol,omitempty"`       //链标识 TRON
+	SettlementAddress string `json:"settlementAddress,omitempty"` // 结算地址
+	IsEnabled         int    `json:"isEnabled,omitempty"`         // 是否开启能量租赁：0-关闭；1-开启
 }

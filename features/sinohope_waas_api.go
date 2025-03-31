@@ -105,6 +105,8 @@ type TransactionAPI interface {
 	// POST: /v1/waas/mpc/web3/sign_message
 	SignMessage(param *common.SignMessageParam) (*common.WaaSMessageHashResult, error)
 	PageAvailableVouts(param *common.PageAvailableVoutsParam) (*common.PageAvailableVoutsRes, error)
+
+	SetDelegateEnergy(param *common.SetDelegateEnergyReq) (*common.Response, error)
 }
 
 type AdvanceAPI interface {
