@@ -211,3 +211,18 @@ func (t *transactionAPI) PageAvailableVouts(param *commonData.PageAvailableVouts
 		return result, nil
 	}
 }
+
+func (t *transactionAPI) SetDelegateEnergy(param *commonData.SetDelegateEnergyReq) (*common.Response, error) {
+	if response, err := t.gw.Post("/v1/api/config/set_delegate_energy", param); err != nil {
+		return nil, fmt.Errorf("send request failed, %v", err)
+	} else if response.Code != commonData.MPCProxyStatusOk {
+		return nil, fmt.Errorf("error response, code: %v msg: %v",
+			response.Code, response.Message)
+	} else {
+		var result *commonData.Response
+		if err := json.Unmarshal(response.Data, &result); err != nil {
+			return nil, fmt.Errorf("unmarshal response failed, %v", err)
+		}
+		return result, nil
+	}
+}
