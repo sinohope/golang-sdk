@@ -531,3 +531,19 @@ type SetDelegateEnergyReq struct {
 	SettlementAddress string `json:"settlementAddress,omitempty"` // 结算地址
 	IsEnabled         int    `json:"isEnabled,omitempty"`         // 是否开启能量租赁：0-关闭；1-开启
 }
+
+type SetTransferStrategyReq struct {
+	FromAddress string                      `json:"fromAddress,omitempty"` //指定地址，逗号分割
+	AssetId     string                      `json:"assetId,omitempty"`     //指定token
+	ToAddress   string                      `json:"toAddress,omitempty"`   //指定to地址，逗号分割
+	Limits      []*SetTransferStrategyLimit `json:"list,omitempty"`        //交易限制规则
+	HitResult   int                         `json:"hitResult,omitempty"`   //命中结果：1-交易触发审批；2-交易被终止
+	VaultId     string                      `json:"vaultId,omitempty"`     //金库id
+	State       int                         `json:"state,omitempty"`       //状态
+}
+
+type SetTransferStrategyLimit struct {
+	Type              int    `json:"type,omitempty"`              //限制类型:1-所有人累计；2-个人累计；3-每笔交易
+	ChargeUnit        string `json:"chargeUnit,omitempty"`        //资产计价单位：usdt
+	Limit24TimeAmount string `json:"limit24TimeAmount,omitempty"` //金额限制
+}
