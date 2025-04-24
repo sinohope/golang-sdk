@@ -11,6 +11,7 @@ type APIClient struct {
 	Brc20             features.Brc20Api
 	Rune              features.RuneApi
 	Sweep             features.SweepApi
+	Config            features.ConfigAPI
 }
 
 func NewApiClient(baseUrl, private string) (*APIClient, error) {
@@ -46,6 +47,10 @@ func NewApiClient(baseUrl, private string) (*APIClient, error) {
 	if err != nil {
 		return nil, err
 	}
+	configApi, err := NewConfigAPI(baseUrl, private)
+	if err != nil {
+		return nil, err
+	}
 	return &APIClient{
 		Common:            commonAPI,
 		AccountAndAddress: accountAndAddressAPI,
@@ -55,5 +60,6 @@ func NewApiClient(baseUrl, private string) (*APIClient, error) {
 		Brc20:             brc20API,
 		Rune:              runeApi,
 		Sweep:             sweepApi,
+		Config:            configApi,
 	}, nil
 }

@@ -189,3 +189,7 @@ type OpenAPI interface {
 	ListTransactions(param *common.WalletTransactionQueryWAASParam) (*common.TransferHistoryWAASDTO, error)
 	IsValidAddress(param *common.WaaSAddressCheckParam) (*common.WaaSAddressCheckDTOData, error)
 }
+
+type ConfigAPI interface {
+	SetTransferStrategy(param *common.SetTransferStrategyReq) (*common.Response, error)
+}
